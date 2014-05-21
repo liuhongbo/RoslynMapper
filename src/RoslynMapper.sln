@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper", "RoslynMapper\RoslynMapper.csproj", "{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Samples", "RoslynMapper.Samples\RoslynMapper.Samples.csproj", "{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.UnitTests", "RoslynMapper.UnitTests\RoslynMapper.UnitTests.csproj", "{EC04611A-AF38-4257-901B-38E603F133DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Benchmark", "RoslynMapper.Benchmark\RoslynMapper.Benchmark.csproj", "{7D62D0CD-3135-4915-9C78-2A05467E64CC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC04611A-AF38-4257-901B-38E603F133DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC04611A-AF38-4257-901B-38E603F133DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC04611A-AF38-4257-901B-38E603F133DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC04611A-AF38-4257-901B-38E603F133DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D62D0CD-3135-4915-9C78-2A05467E64CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D62D0CD-3135-4915-9C78-2A05467E64CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D62D0CD-3135-4915-9C78-2A05467E64CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D62D0CD-3135-4915-9C78-2A05467E64CC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
