@@ -42,6 +42,11 @@ namespace RoslynMapper.Map
                 return typeof(T2);
             }
         }
+
+        public override int GetHashCode()
+        {
+            return Key;
+        }
     
     }
 }

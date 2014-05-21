@@ -11,7 +11,7 @@ namespace RoslynMapper.Map
         string Name { get; set; }
         int Key { get; }
         Type SourceType { get; }
-        Type DestinationType { get; }
+        Type DestinationType { get; }       
     }
 
     public interface ITypeMap<T1, T2> : ITypeMap

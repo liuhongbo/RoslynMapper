@@ -10,6 +10,15 @@ namespace RoslynMapper.Benchmark
     {
         static void Main(string[] args)
         {
+            SimpleTest.Initialize();
+            //NestedClassesTest.Initialize();
+            //CustomizationTest.Initialize();
+
+            SimpleTest.Run();
+            //NestedClassesTest.Run();
+            //CustomizationTest.Run();
+            
+            Console.ReadLine();
         }
     }
 }

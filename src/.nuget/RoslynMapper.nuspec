@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>RoslynMapper</id>
+        <version>0.1.0-alpha</version>
+        <title>RoslynMapper</title>
+        <authors>liuhongbo@live.com</authors>
+        <owners>liuhongbo@live.com</owners>
+        <licenseUrl>https://github.com/liuhongbo/RoslynMapper</licenseUrl>
+        <projectUrl>https://github.com/liuhongbo/RoslynMapper</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>An object to object mapper</description>
+        <copyright>Copyright ©  2014 liuhongbo@live.com</copyright>
+        <dependencies>
+            <dependency id="Microsoft.CodeAnalysis" version="0.6.0.0" />
+			<dependency id="Microsoft.CodeAnalysis.CSharp" version="0.6.0.0" />
+        </dependencies>
+	<tags>Roslyn Mapper</tags>
+    </metadata>
+    <files>
+        <file src="..\RoslynMapper\bin\release\RoslynMapper.dll" target="lib\net45\RoslynMapper.dll" />
+    </files>
+</package>

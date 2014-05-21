@@ -18,7 +18,7 @@ namespace RoslynMapper.Map
             StringBuilder sb = new StringBuilder();
             
             foreach (var typeMap in typeMaps){
-                sb.Append(GenerateClass(typeMap));                
+                sb.Append(GetClass(typeMap));                
             }
 
             if (sb.Length > 0)
@@ -27,7 +27,7 @@ namespace RoslynMapper.Map
 {0}
 
 namespace {1}
-{{", GetUsings(), GetNamespace()));
+{{", GetUsings(typeMaps), GetNamespace(typeMaps)));
 
                 sb.Append("}");
             }
@@ -38,7 +38,7 @@ namespace {1}
             {
                 foreach (var typeMap in typeMaps)
                 {
-                    Type mapType = assembly.GetType(string.Format("{0}.{1}", GetNamespace(), GetClassName(typeMap)));
+                    Type mapType = assembly.GetType(string.Format("{0}.{1}", GetNamespace(typeMaps), GetClassName(typeMap)));
                     if (mapType != null)
                     {
                         IMapper mapper = (IMapper)Activator.CreateInstance(mapType);
@@ -50,6 +50,8 @@ namespace {1}
                 }
             }
 
+            //Console.WriteLine(sb.ToString());
+
             return mapperList;
         }
 
@@ -58,7 +60,7 @@ namespace {1}
         {
             IMapper mapper = null;
 
-            var classCode = GenerateClass(typeMap);
+            var classCode = GetClass(typeMap);
 
             var code = string.Format(
 @"{0}
@@ -67,22 +69,37 @@ namespace {1}
 {{
     {2}
 }}
-", GetUsings(),GetNamespace(), classCode);
+", GetUsings(new ITypeMap[] { typeMap }), GetNamespace(new ITypeMap[] { typeMap }), classCode);
 
             Assembly assembly = BuildAssembly(code, new ITypeMap[]{ typeMap });
 
             if (assembly != null)
             {
-                Type mapType = assembly.GetType(string.Format("{0}.{1}",GetNamespace(),GetClassName(typeMap)));
+                Type mapType = assembly.GetType(string.Format("{0}.{1}", GetNamespace(new ITypeMap[] { typeMap }), GetClassName(typeMap)));
                 mapper = (IMapper)Activator.CreateInstance(mapType);
             }
             return mapper;
         }
 
-        protected string GenerateClass(ITypeMap typeMap)
+        protected string GetNamespace(IEnumerable<ITypeMap> typeMaps)
+        {
+            return "RoslynMapper.Mappers";
+        }
+
+        protected string GetUsings(IEnumerable<ITypeMap> typeMaps)
+        {
+            return
+@"using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;";
+        }
+
+        protected string GetClass(ITypeMap typeMap)
         {
             string code = string.Empty;
-
+         
             code = string.Format(@"
     class {0}:{1}
     {{
@@ -93,7 +110,7 @@ namespace {1}
 
         public {3} Map({2} t1, {3} t2)
         {{
-            {4}
+{4}
             return t2;
         }}
 
@@ -102,7 +119,7 @@ namespace {1}
             return {5};
         }}
     }}
-", GetClassName(typeMap), GetBaseTypeName(typeMap), typeMap.SourceType.FullName, typeMap.DestinationType.FullName, GetMappingCode(typeMap), typeMap.Key);
+", GetClassName(typeMap), GetBaseTypeName(typeMap), GetTypeFullName(typeMap.SourceType), GetTypeFullName(typeMap.DestinationType), GetMapBody(typeMap,"            "), typeMap.Key);
 
             return code;
         }
@@ -111,30 +128,15 @@ namespace {1}
         {
             var srcName = typeMap.SourceType.FullName;
             var destName = typeMap.DestinationType.FullName;
-            return string.Format("{0}__Map__{1}", srcName.Replace('.', '_'), destName.Replace('.', '_'));
+            return string.Format("{0}__Map__{1}", srcName.Replace('.', '_').Replace('+','_'), destName.Replace('.', '_').Replace('+','_'));
         }
 
         protected string GetBaseTypeName(ITypeMap typeMap)
-        {
-            return string.Format("IMapper<{0},{1}>", typeMap.SourceType.FullName, typeMap.DestinationType.FullName);
+        {            
+            return string.Format("IMapper<{0},{1}>", GetTypeFullName(typeMap.SourceType), GetTypeFullName(typeMap.DestinationType));
         }
 
-        protected string GetNamespace()
-        {
-            return "RoslynMapper.Runtime";
-        }
-
-        protected string GetUsings()
-        {
-            return 
-@"using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;";
-        }
-
-        protected string GetMappingCode(ITypeMap typeMap)
+        protected string GetMapBody(ITypeMap typeMap, string indent)
         {
             string code = string.Empty;
 
@@ -147,11 +149,32 @@ using System.Threading.Tasks;";
             {
                 if (srcProperties.Any(p => p.Name == prop.Name))
                 {
-                    code += string.Format("t2.{0}=t1.{0};\r\n", prop.Name);
+                    code += string.Format("{0}t2.{1}=({2})t1.{1};\r\n", indent, prop.Name, GetTypeFullName(prop.PropertyType));
+                }
+            }
+
+            var destFields = destinationType.GetFields();
+            var srcFields = sourceType.GetFields();
+
+            foreach (var field in destFields)
+            {
+                if (srcFields.Any(f => f.Name == field.Name))
+                {
+                    code += string.Format("{0}t2.{1}=({2})t1.{1};\r\n", indent, field.Name, GetTypeFullName(field.FieldType));
                 }
             }
 
             return code;
+        }
+
+        /// <summary>
+        /// replace + with . for inner types
+        /// </summary>
+        /// <param name="type">Type Object</param>
+        /// <returns></returns>
+        private string GetTypeFullName(Type type)
+        {
+            return type.FullName.Replace('+','.');
         }
 
         protected Assembly BuildAssembly(string code, IEnumerable<ITypeMap> typeMaps)
