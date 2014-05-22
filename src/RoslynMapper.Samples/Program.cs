@@ -26,6 +26,7 @@ namespace RoslynMapper.Samples
             var engine = RoslynMapper.MappingEngine.DefaultInstance;
 
             engine.SetMapper<A, B>();
+            engine.SetMapper<B, A>();
             engine.Build();
 
             var mapper = engine.GetMapper<A, B>();

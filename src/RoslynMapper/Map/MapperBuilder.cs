@@ -189,7 +189,7 @@ using System.Threading.Tasks;";
 
                 if (!paths.ContainsKey(typeMap.DestinationType.Assembly.Location))
                 {
-                    paths.Add(typeMap.SourceType.Assembly.Location, typeMap.DestinationType.Assembly.Location);
+                    paths.Add(typeMap.DestinationType.Assembly.Location, typeMap.DestinationType.Assembly.Location);
                 }
             }
 
