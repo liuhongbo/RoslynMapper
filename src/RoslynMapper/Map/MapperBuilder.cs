@@ -177,7 +177,33 @@ using System.Threading.Tasks;";
             return type.FullName.Replace('+','.');
         }
 
-        protected Assembly BuildAssembly(string code, IEnumerable<ITypeMap> typeMaps)
+        private IEnumerable<Type> GetParentTypes(Type type)
+        {
+            // is there any base type?
+            if ((type == null) || (type.BaseType == null))
+            {
+                yield break;
+            }
+
+            // return all implemented or inherited interfaces
+            foreach (var i in type.GetInterfaces())
+            {
+                yield return i;
+            }
+
+            // return all inherited types
+            var currentBaseType = type.BaseType;
+            while (currentBaseType != null)
+            {
+                yield return currentBaseType;
+                currentBaseType = currentBaseType.BaseType;
+            }
+        }
+
+
+        private static Type[] _defaultReferenceTypes = {typeof(object), typeof(Enumerable), typeof(MapperBuilder)};
+
+        private IEnumerable<MetadataFileReference> GetMetadataFileReferences(IEnumerable<ITypeMap> typeMaps)
         {
             Dictionary<string, string> paths = new Dictionary<string, string>();
             foreach (var typeMap in typeMaps)
@@ -187,29 +213,58 @@ using System.Threading.Tasks;";
                     paths.Add(typeMap.SourceType.Assembly.Location, typeMap.SourceType.Assembly.Location);
                 }
 
+                foreach (var baseType in GetParentTypes(typeMap.SourceType))
+                {
+                    if (!paths.ContainsKey(baseType.Assembly.Location))
+                    {
+                        paths.Add(baseType.Assembly.Location, baseType.Assembly.Location);
+                    }
+                }
+
                 if (!paths.ContainsKey(typeMap.DestinationType.Assembly.Location))
                 {
                     paths.Add(typeMap.DestinationType.Assembly.Location, typeMap.DestinationType.Assembly.Location);
                 }
+
+                foreach (var baseType in GetParentTypes(typeMap.DestinationType))
+                {
+                    if (!paths.ContainsKey(baseType.Assembly.Location))
+                    {
+                        paths.Add(baseType.Assembly.Location, baseType.Assembly.Location);
+                    }
+                }
             }
 
-            var tree = SyntaxFactory.ParseSyntaxTree(code);
-            MetadataReference[] refs = new MetadataReference[paths.Count + 3];
-            refs[0] = new MetadataFileReference(typeof(object).Assembly.Location);
-            refs[1] = new MetadataFileReference(this.GetType().Assembly.Location);
-            refs[2] = new MetadataFileReference(typeof(Enumerable).Assembly.Location);
-            int i = 3;
+            foreach (var t in _defaultReferenceTypes)
+            {
+                if (!paths.ContainsKey(t.Assembly.Location))
+                {
+                    paths.Add(t.Assembly.Location,t.Assembly.Location);
+                }
+            }
+
+            MetadataFileReference[] refs = new MetadataFileReference[paths.Count];
+
+            int i = 0;
+           
             foreach (var path in paths)
             {
                 refs[i] = new MetadataFileReference(path.Value);
                 i++;
             }
 
+            return refs;
+        }
+
+        protected Assembly BuildAssembly(string code, IEnumerable<ITypeMap> typeMaps)
+        {
+            var tree = SyntaxFactory.ParseSyntaxTree(code);            
+
             var compilation = CSharpCompilation.Create(
                 null,
                 options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary),
                 syntaxTrees: new[] { tree },
-                references: refs);
+                references: GetMetadataFileReferences(typeMaps));
 
             Assembly compiledAssembly = null;
             using (var stream = new MemoryStream())
