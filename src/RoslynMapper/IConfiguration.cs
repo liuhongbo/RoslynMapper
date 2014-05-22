@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RoslynMapper
 {
-    public interface IMappingConfiguration
+    public interface IConfiguration
     {
     }
 }

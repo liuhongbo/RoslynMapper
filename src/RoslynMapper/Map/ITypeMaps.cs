@@ -8,7 +8,7 @@ namespace RoslynMapper.Map
 {
     public interface ITypeMaps
     {
-        ITypeMap GetTypeMap(int key);
+        ITypeMap GetTypeMap(MapKey key);
         ITypeMap<T1, T2> GetTypeMap<T1, T2>();
         ITypeMap<T1, T2> GetTypeMap<T1, T2>(string name);
         void AddTypeMap(ITypeMap typeMap);

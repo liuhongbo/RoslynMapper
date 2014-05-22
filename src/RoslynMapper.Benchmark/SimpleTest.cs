@@ -157,7 +157,6 @@ namespace RoslynMapper.Benchmark
             return sw.ElapsedMilliseconds;
         }
 
-
         public static void Initialize()
         {
             emitMapper = ObjectMapperManager.DefaultInstance.GetMapper<B2, A2>();
@@ -178,5 +177,13 @@ namespace RoslynMapper.Benchmark
             Console.WriteLine("Handwritten Mapper (simple): {0} milliseconds", HandWtitten_Simple(mappingsCount));
             Console.WriteLine("Roslyn Mapper (simple): {0} milliseconds", RoslynMapper_Simple(mappingsCount));
         }
+
+        /*
+            Auto Mapper (simple): 35235 milliseconds
+            BLToolkit (simple): 16658 milliseconds
+            Emit Mapper (simple): 152 milliseconds
+            Handwritten Mapper (simple): 38 milliseconds
+            Roslyn Mapper (simple): 38 milliseconds
+         */
     }
 }

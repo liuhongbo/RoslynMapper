@@ -9,7 +9,7 @@ namespace RoslynMapper.Map
     public interface ITypeMap
     {
         string Name { get; set; }
-        int Key { get; }
+        MapKey Key { get; }
         Type SourceType { get; }
         Type DestinationType { get; }       
     }

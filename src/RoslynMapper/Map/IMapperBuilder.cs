@@ -8,7 +8,7 @@ namespace RoslynMapper.Map
 {
     public interface IMapperBuilder
     {
-        IEnumerable<IMapper> Build(IEnumerable<ITypeMap> typeMaps);
-        IMapper Build(ITypeMap typeMap);
+        IEnumerable<KeyValuePair<MapKey, IMapper>> Build(IEnumerable<ITypeMap> typeMaps);
+        KeyValuePair<MapKey, IMapper> Build(ITypeMap typeMap);
     }
 }

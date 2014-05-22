@@ -10,21 +10,21 @@ namespace RoslynMapper.Map
     {
         Type _TypeFrom;
 		Type _TypeTo;
-		string _mapperName;
+		string _mapName;
 		int _hash;
 
-        public MapKey(Type TypeFrom, Type TypeTo, string mapperName)
+        public MapKey(Type TypeFrom, Type TypeTo, string mapName)
 		{
 			_TypeFrom = TypeFrom;
 			_TypeTo = TypeTo;
-			_mapperName = mapperName;
-			_hash = TypeFrom.GetHashCode() + TypeTo.GetHashCode() + (mapperName == null ? 0 : mapperName.GetHashCode());
+			_mapName = mapName;
+            _hash = unchecked(((TypeFrom.GetHashCode()*397) ^ (TypeTo.GetHashCode() * 7)) + (mapName == null ? 0 : mapName.GetHashCode()));
 		}
 
 		public override bool Equals(object obj)
 		{
             var rhs = (MapKey)obj;
-			return _hash == rhs._hash && _TypeFrom == rhs._TypeFrom && _TypeTo == rhs._TypeTo && _mapperName == rhs._mapperName;
+			return _hash == rhs._hash && _TypeFrom == rhs._TypeFrom && _TypeTo == rhs._TypeTo && _mapName == rhs._mapName;
 		}
 
 		public override int GetHashCode()

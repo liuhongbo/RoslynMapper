@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMappingConfiguration.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="Mapping.cs" />
     <Compile Include="MappingEngine.cs" />
     <Compile Include="IMapper.cs" />

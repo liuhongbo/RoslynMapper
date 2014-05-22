@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace RoslynMapper.Map
 {
-    public class TypeMaps : Dictionary<int, ITypeMap>, ITypeMaps
+    public class TypeMaps : Dictionary<MapKey, ITypeMap>, ITypeMaps
     {
-        public ITypeMap GetTypeMap(int key)
+        public ITypeMap GetTypeMap(MapKey key)
         {
             ITypeMap typeMap = null;
             this.TryGetValue(key, out typeMap);
@@ -17,12 +17,12 @@ namespace RoslynMapper.Map
 
         public ITypeMap<T1, T2> GetTypeMap<T1, T2>()
         {
-            return (ITypeMap<T1, T2>)GetTypeMap(new MapKey(typeof(T1), typeof(T2), null).GetHashCode());
+            return (ITypeMap<T1, T2>)GetTypeMap(new MapKey(typeof(T1), typeof(T2), null));
         }
 
         public ITypeMap<T1, T2> GetTypeMap<T1, T2>(string name)
         {
-            return (ITypeMap<T1, T2>)GetTypeMap(new MapKey(typeof(T1), typeof(T2), name).GetHashCode());
+            return (ITypeMap<T1, T2>)GetTypeMap(new MapKey(typeof(T1), typeof(T2), name));
         }
 
         public void AddTypeMap(ITypeMap typeMap)

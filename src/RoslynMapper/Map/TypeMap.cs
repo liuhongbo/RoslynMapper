@@ -8,6 +8,8 @@ namespace RoslynMapper.Map
 {
     public class TypeMap<T1,T2> : ITypeMap<T1,T2>
     {
+        static private MapKey _mapKey = null;
+
         public TypeMap(): this(null)
         {
 
@@ -19,11 +21,11 @@ namespace RoslynMapper.Map
         }
         public string Name { get; set; }
 
-        public int Key
+        public MapKey Key
         {
             get
             {
-                return new MapKey(typeof(T1), typeof(T2), Name).GetHashCode();
+                return _mapKey??new MapKey(typeof(T1), typeof(T2), Name);
             }
         }
 
@@ -45,7 +47,7 @@ namespace RoslynMapper.Map
 
         public override int GetHashCode()
         {
-            return Key;
+            return Key.GetHashCode();
         }
     
     }

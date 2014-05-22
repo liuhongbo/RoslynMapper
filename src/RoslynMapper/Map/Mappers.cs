@@ -7,9 +7,9 @@ using RoslynMapper;
 
 namespace RoslynMapper.Map
 {
-    public class Mappers : Dictionary<int, IMapper>, IMappers
+    public class Mappers : Dictionary<MapKey, IMapper>, IMappers
     {
-        public IMapper GetMapper(int key)
+        public IMapper GetMapper(MapKey key)
         {
             IMapper mapper = null;
             this.TryGetValue(key, out mapper);
@@ -18,29 +18,29 @@ namespace RoslynMapper.Map
 
         public IMapper<T1, T2> GetMapper<T1, T2>()
         {
-            return (IMapper<T1, T2>)GetMapper(new MapKey(typeof(T1), typeof(T2), null).GetHashCode());
+            return (IMapper<T1, T2>)GetMapper(new MapKey(typeof(T1), typeof(T2), null));
         }
 
         public IMapper<T1, T2> GetMapper<T1, T2>(string name)
         {
-            return (IMapper<T1, T2>)GetMapper(new MapKey(typeof(T1), typeof(T2), name).GetHashCode());
+            return (IMapper<T1, T2>)GetMapper(new MapKey(typeof(T1), typeof(T2), name));
         }
 
-        public void AddMapper(IMapper mapper)
+        public void AddMapper(MapKey key, IMapper mapper)
         {
-            this.Add(mapper.GetHashCode(), mapper);
+            this.Add(key, mapper);
         }
 
-        public void RemoveMapper(IMapper mapper)
+        public void RemoveMapper(MapKey key)
         {
-            this.Remove(mapper.GetHashCode());
+            this.Remove(key);
         }
 
-        public void AddMappers(IEnumerable<IMapper> mappers)
+        public void AddMappers(IEnumerable<KeyValuePair<MapKey, IMapper>> mappers)
         {
             foreach (var m in mappers)
             {
-                this.AddMapper(m);
+                this.AddMapper(m.Key, m.Value);
             }            
         }
     }

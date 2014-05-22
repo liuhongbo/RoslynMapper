@@ -12,9 +12,9 @@ namespace RoslynMapper.Map
 {
     public class MapperBuilder : IMapperBuilder
     {
-        public IEnumerable<IMapper> Build(IEnumerable<ITypeMap> typeMaps)
+        public IEnumerable<KeyValuePair<MapKey, IMapper>> Build(IEnumerable<ITypeMap> typeMaps)
         {
-            var mapperList = new List<IMapper>();
+            var mappers = new List<KeyValuePair<MapKey, IMapper>>();
             StringBuilder sb = new StringBuilder();
             
             foreach (var typeMap in typeMaps){
@@ -44,7 +44,7 @@ namespace {1}
                         IMapper mapper = (IMapper)Activator.CreateInstance(mapType);
                         if (mapper != null)
                         {
-                            mapperList.Add(mapper);
+                            mappers.Add(new KeyValuePair<MapKey, IMapper>(typeMap.Key, mapper));
                         }
                     }                   
                 }
@@ -52,11 +52,11 @@ namespace {1}
 
             //Console.WriteLine(sb.ToString());
 
-            return mapperList;
+            return mappers;
         }
 
 
-        public IMapper Build(ITypeMap typeMap)
+        public KeyValuePair<MapKey, IMapper> Build(ITypeMap typeMap)
         {
             IMapper mapper = null;
 
@@ -78,7 +78,7 @@ namespace {1}
                 Type mapType = assembly.GetType(string.Format("{0}.{1}", GetNamespace(new ITypeMap[] { typeMap }), GetClassName(typeMap)));
                 mapper = (IMapper)Activator.CreateInstance(mapType);
             }
-            return mapper;
+            return new KeyValuePair<MapKey, IMapper>(typeMap.Key, mapper);
         }
 
         protected string GetNamespace(IEnumerable<ITypeMap> typeMaps)
@@ -119,7 +119,7 @@ using System.Threading.Tasks;";
             return {5};
         }}
     }}
-", GetClassName(typeMap), GetBaseTypeName(typeMap), GetTypeFullName(typeMap.SourceType), GetTypeFullName(typeMap.DestinationType), GetMapBody(typeMap,"            "), typeMap.Key);
+", GetClassName(typeMap), GetBaseTypeName(typeMap), GetTypeFullName(typeMap.SourceType), GetTypeFullName(typeMap.DestinationType), GetMapBody(typeMap,"            "), typeMap.GetHashCode());
 
             return code;
         }
