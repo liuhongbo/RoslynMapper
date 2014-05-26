@@ -9,7 +9,7 @@ namespace RoslynMapper
 {
     public interface IMapper
     {
-       
+        //object Map(Object from, Type to);
     }
 
     public interface IMapper<T1, T2> : IMapper

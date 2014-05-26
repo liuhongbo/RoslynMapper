@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace RoslynMapper
 {
+    // the fluent mapping configuration interface
     public interface IMapping
     {
+       
     }
 
     public interface IMapping<T1, T2> : IMapping
-    {
+    {        
         IMapping<T1, T2> Ignore(Expression<Func<T2, object>> destinationMember);
     }
 }

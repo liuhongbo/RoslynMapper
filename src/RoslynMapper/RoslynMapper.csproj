@@ -53,19 +53,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ITypeConvert.cs" />
+    <Compile Include="Convert\TypeConvert.cs" />
+    <Compile Include="IBuilder.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="Mapper\MapperBase.cs" />
     <Compile Include="Mapping.cs" />
-    <Compile Include="MappingEngine.cs" />
+    <Compile Include="MapEngine.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMapping.cs" />
-    <Compile Include="IMappingEngine.cs" />
-    <Compile Include="Map\IMapperBuilder.cs" />
+    <Compile Include="IMapEngine.cs" />
+    <Compile Include="Build\IMapperBuilder.cs" />
     <Compile Include="Map\IMappers.cs" />
     <Compile Include="Map\ITypeMap.cs" />
     <Compile Include="Map\ITypeMapFactory.cs" />
     <Compile Include="Map\ITypeMaps.cs" />
     <Compile Include="Map\MapKey.cs" />
-    <Compile Include="Map\MapperBuilder.cs" />
+    <Compile Include="Build\MapperBuilder.cs" />
     <Compile Include="Map\Mappers.cs" />
     <Compile Include="Map\TypeMap.cs" />
     <Compile Include="Map\TypeMapFactory.cs" />
@@ -75,6 +79,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
