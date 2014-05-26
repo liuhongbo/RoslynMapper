@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="MappingEngineFixture.cs" />
     <Compile Include="MappingEngineTests.cs" />
+    <Compile Include="TypeConvertTests.cs" />
     <Compile Include="ValueTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

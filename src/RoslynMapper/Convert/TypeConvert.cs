@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -164,6 +165,111 @@ namespace RoslynMapper.Convert
             {
                 return true;
             }
+            else
+            {
+                //http://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
+                if (IsNumericType(sourceType) && IsNumericType(destinationType))
+                {
+                    var destTypeCode = Type.GetTypeCode(destinationType);
+                    switch (Type.GetTypeCode(sourceType))
+                    {
+                        case TypeCode.SByte:
+                            return ((destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.Byte:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.Int16:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.UInt16:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.Int32:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.UInt32:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.Int64:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.UInt64:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.Int64) ||
+                                    (destTypeCode == TypeCode.Char));
+                        case TypeCode.Char:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16));
+                        case TypeCode.Single:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.Int64) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char) ||
+                                    (destTypeCode == TypeCode.Decimal));
+                        case TypeCode.Double:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.Int64) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char) ||
+                                    (destTypeCode == TypeCode.Single) ||
+                                    (destTypeCode == TypeCode.Decimal));
+                        case TypeCode.Decimal:
+                            return ((destTypeCode == TypeCode.SByte) ||
+                                    (destTypeCode == TypeCode.Byte) ||
+                                    (destTypeCode == TypeCode.Int16) ||
+                                    (destTypeCode == TypeCode.UInt16) ||
+                                    (destTypeCode == TypeCode.Int32) ||
+                                    (destTypeCode == TypeCode.UInt32) ||
+                                    (destTypeCode == TypeCode.Int64) ||
+                                    (destTypeCode == TypeCode.UInt64) ||
+                                    (destTypeCode == TypeCode.Char) ||
+                                    (destTypeCode == TypeCode.Single) ||
+                                    (destTypeCode == TypeCode.Double));
+
+                    }
+                }
+            }
 
             return false;
         }
@@ -185,7 +291,12 @@ namespace RoslynMapper.Convert
 
         public bool CanIConvertibleConvert(Type sourceType, Type destinationType)
         {
-            throw new Exception("not implemented");
+            if (typeof(IConvertible).IsAssignableFrom(sourceType))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool CanIConvertibleConvert(object value, Type destinationType)
@@ -205,7 +316,36 @@ namespace RoslynMapper.Convert
 
         public bool CanTypeConverterConvert(Type sourceType, Type destinationType)
         {
-            throw new Exception("not implemented");
+            return ((CanTypeConverterConvertFrom(sourceType, destinationType)) ||
+                    (CanTypeConverterConvertTo(sourceType, destinationType)));
+        }
+
+        public bool CanTypeConverterConvertFrom(Type sourceType, Type destinationType)
+        {
+            TypeConverter converter = TypeDescriptor.GetConverter(destinationType);
+            if (converter != null)
+            {
+                if (converter.CanConvertFrom(sourceType))
+                {
+                    return true;
+                }
+            }
+           
+            return false;
+        }
+
+        public bool CanTypeConverterConvertTo(Type sourceType, Type destinationType)
+        {
+            TypeConverter converter = TypeDescriptor.GetConverter(sourceType);
+            if (converter != null)
+            {
+                if (converter.CanConvertTo(destinationType))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool CanTypeConverterConvert(object value, Type destinationType)
@@ -252,7 +392,29 @@ namespace RoslynMapper.Convert
             return (IsSimpleType(type) ||
                     (type == typeof(object)) ||
                     (type == typeof(string)));
-        }       
+        }
+
+        private static bool ValueRepresentsNull(object value)
+        {
+            return value == null || value == DBNull.Value;
+        }
+
+        
+        private static object GetDefaultValueOfType(Type type)
+        {
+            return type.IsValueType ? Activator.CreateInstance(type) : null;
+        }
+
+        private static bool IsGenericNullable(Type type)
+        {
+            return type.IsGenericType &&
+                   type.GetGenericTypeDefinition() == typeof(Nullable<>).GetGenericTypeDefinition();
+        }
+
+        private static Type GetUnderlyingType(Type type)
+        {
+            return Nullable.GetUnderlyingType(type);
+        }
 
         #endregion
     }

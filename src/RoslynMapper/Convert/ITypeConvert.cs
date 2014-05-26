@@ -28,6 +28,8 @@ namespace RoslynMapper.Convert
         bool TryIConvertibleConvert(object value, Type destinationType, out object result);
         object IConvertibleConvert(object value, Type destinationType);
 
+        bool CanTypeConverterConvertFrom(Type sourceType, Type destinationType);
+        bool CanTypeConverterConvertTo(Type sourceType, Type destinationType);
         bool CanTypeConverterConvert(Type sourceType, Type destinationType);
         bool CanTypeConverterConvert(object value, Type destinationType);
         bool TryTypeConverterCOnvert(object value, Type destinationType, out object result);
