@@ -8,7 +8,7 @@ using RoslynMapper;
 
 namespace RoslynMapper.UnitTests
 {
-    public class ValueTypesTests: IClassFixture<MappingEngineFixture>
+    public class ValueTypesTests: IClassFixture<MapEngineFixture>
     {
         private Destination _destination;
         private IMapEngine _mapper;
@@ -24,7 +24,7 @@ namespace RoslynMapper.UnitTests
             public string Value2;
         }
 
-        public ValueTypesTests(MappingEngineFixture fixture)
+        public ValueTypesTests(MapEngineFixture fixture)
         {
             _mapper = fixture.Engine;
         }

@@ -58,6 +58,8 @@ namespace RoslynMapper.Convert
         bool TryIConvertibleConvert(T1 t1, out T2 t2);
         T2 IConvertibleConvert(T1 t1);
 
+        bool CanTypeConverterConvertFrom();
+        bool CanTypeConverterConvertTo();
         bool CanTypeConverterConvert();
         bool CanTypeConverterConvert(T1 t1);
         bool TryTypeConverterCOnvert(T1 t1, out T2 t2);

@@ -7,7 +7,7 @@ using RoslynMapper;
 
 namespace RoslynMapper.UnitTests
 {
-    public class MappingEngineFixture :IDisposable
+    public class MapEngineFixture :IDisposable
     {
         public IMapEngine Engine
         {

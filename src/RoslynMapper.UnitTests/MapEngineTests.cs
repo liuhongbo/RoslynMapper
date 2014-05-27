@@ -8,11 +8,11 @@ using RoslynMapper;
 
 namespace RoslynMapper.UnitTests
 {
-    public class MappingEngineTests : IClassFixture<MappingEngineFixture>
+    public class MapEngineTests : IClassFixture<MapEngineFixture>
     {
         private IMapEngine _mapper;
 
-        public MappingEngineTests(MappingEngineFixture fixture)
+        public MapEngineTests(MapEngineFixture fixture)
         {
             _mapper = fixture.Engine;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 using RoslynMapper.Convert;
 
-namespace RoslynMapper.UnitTests
+namespace RoslynMapper.UnitTests.Convert
 {
     public class TypeConvertTests
     {

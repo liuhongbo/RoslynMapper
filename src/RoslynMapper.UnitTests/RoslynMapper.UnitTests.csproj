@@ -52,9 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MappingEngineFixture.cs" />
-    <Compile Include="MappingEngineTests.cs" />
-    <Compile Include="TypeConvertTests.cs" />
+    <Compile Include="ConversionOperatorTests.cs" />
+    <Compile Include="IConvertibleTests.cs" />
+    <Compile Include="MapEngineFixture.cs" />
+    <Compile Include="MapEngineTests.cs" />
+    <Compile Include="Convert\TypeConvertTests.cs" />
+    <Compile Include="TypeConverterTests.cs" />
     <Compile Include="ValueTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
