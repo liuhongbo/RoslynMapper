@@ -165,110 +165,114 @@ namespace RoslynMapper.Convert
             {
                 return true;
             }
-            else
+            else if (IsNumericType(sourceType) && IsNumericType(destinationType))  //http://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
             {
-                //http://msdn.microsoft.com/en-us/library/yht2cx7b.aspx
-                if (IsNumericType(sourceType) && IsNumericType(destinationType))
+                var destTypeCode = Type.GetTypeCode(destinationType);
+                switch (Type.GetTypeCode(sourceType))
                 {
-                    var destTypeCode = Type.GetTypeCode(destinationType);
-                    switch (Type.GetTypeCode(sourceType))
-                    {
-                        case TypeCode.SByte:
-                            return ((destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.Byte:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.Int16:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.UInt16:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.Int32:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.UInt32:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.Int64:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.UInt64:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.Int64) ||
-                                    (destTypeCode == TypeCode.Char));
-                        case TypeCode.Char:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16));
-                        case TypeCode.Single:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.Int64) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char) ||
-                                    (destTypeCode == TypeCode.Decimal));
-                        case TypeCode.Double:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.Int64) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char) ||
-                                    (destTypeCode == TypeCode.Single) ||
-                                    (destTypeCode == TypeCode.Decimal));
-                        case TypeCode.Decimal:
-                            return ((destTypeCode == TypeCode.SByte) ||
-                                    (destTypeCode == TypeCode.Byte) ||
-                                    (destTypeCode == TypeCode.Int16) ||
-                                    (destTypeCode == TypeCode.UInt16) ||
-                                    (destTypeCode == TypeCode.Int32) ||
-                                    (destTypeCode == TypeCode.UInt32) ||
-                                    (destTypeCode == TypeCode.Int64) ||
-                                    (destTypeCode == TypeCode.UInt64) ||
-                                    (destTypeCode == TypeCode.Char) ||
-                                    (destTypeCode == TypeCode.Single) ||
-                                    (destTypeCode == TypeCode.Double));
+                    case TypeCode.SByte:
+                        return ((destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.Byte:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.Int16:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.UInt16:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.Int32:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.UInt32:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.Int64:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.UInt64:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.Int64) ||
+                                (destTypeCode == TypeCode.Char));
+                    case TypeCode.Char:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16));
+                    case TypeCode.Single:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.Int64) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char) ||
+                                (destTypeCode == TypeCode.Decimal));
+                    case TypeCode.Double:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.Int64) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char) ||
+                                (destTypeCode == TypeCode.Single) ||
+                                (destTypeCode == TypeCode.Decimal));
+                    case TypeCode.Decimal:
+                        return ((destTypeCode == TypeCode.SByte) ||
+                                (destTypeCode == TypeCode.Byte) ||
+                                (destTypeCode == TypeCode.Int16) ||
+                                (destTypeCode == TypeCode.UInt16) ||
+                                (destTypeCode == TypeCode.Int32) ||
+                                (destTypeCode == TypeCode.UInt32) ||
+                                (destTypeCode == TypeCode.Int64) ||
+                                (destTypeCode == TypeCode.UInt64) ||
+                                (destTypeCode == TypeCode.Char) ||
+                                (destTypeCode == TypeCode.Single) ||
+                                (destTypeCode == TypeCode.Double));
 
-                    }
                 }
+            }
+            else if (IsIntegralType(sourceType) && destinationType.IsEnum)
+            {
+                return true;
+            }
+            else if (sourceType.IsEnum && IsIntegralType(destinationType))
+            {
+                return true;
             }
 
             return false;
@@ -293,7 +297,14 @@ namespace RoslynMapper.Convert
         {
             if (typeof(IConvertible).IsAssignableFrom(sourceType))
             {
-                return true;
+                if (IsBuildInType(sourceType))
+                {
+                    return IsBuildInType(destinationType);
+                }
+                else
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -365,22 +376,33 @@ namespace RoslynMapper.Convert
 
         #region Helper
 
-        protected static bool IsNumericType(Type type)
+        protected static bool IsIntegralType(Type type)
         {
             return ((type == typeof(sbyte)) ||
-                   (type == typeof(byte)) ||
-                   (type == typeof(short)) ||
-                   (type == typeof(ushort)) ||
-                   (type == typeof(int)) ||
-                   (type == typeof(uint)) ||
-                   (type == typeof(long)) ||
-                   (type == typeof(ulong)) ||
-                   (type == typeof(char)) ||
-                   (type == typeof(float)) ||
-                   (type == typeof(double)) ||
+                  (type == typeof(byte)) ||
+                  (type == typeof(short)) ||
+                  (type == typeof(ushort)) ||
+                  (type == typeof(int)) ||
+                  (type == typeof(uint)) ||
+                  (type == typeof(long)) ||
+                  (type == typeof(ulong)) ||
+                  (type == typeof(char)));
+        }
+
+        protected static bool IsFloatingPointType(Type type)
+        {
+            return ((type == typeof(float)) ||
+                  (type == typeof(double)));
+        }
+
+        protected static bool IsNumericType(Type type)
+        {
+            return ((IsIntegralType(type)) ||
+                   (IsFloatingPointType(type)) ||
                    (type == typeof(decimal)));
         }
 
+        //http://msdn.microsoft.com/en-us/library/aa691144(v=vs.71).aspx
         protected static bool IsSimpleType(Type type)
         {
             return (IsNumericType(type) ||
@@ -392,7 +414,7 @@ namespace RoslynMapper.Convert
             return (IsSimpleType(type) ||
                     (type == typeof(object)) ||
                     (type == typeof(string)));
-        }
+        }       
 
         private static bool ValueRepresentsNull(object value)
         {

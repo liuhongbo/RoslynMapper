@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConversionOperatorTests.cs" />
+    <Compile Include="EnumTypeTests.cs" />
     <Compile Include="IConvertibleTests.cs" />
     <Compile Include="MapEngineFixture.cs" />
     <Compile Include="MapEngineTests.cs" />
