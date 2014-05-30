@@ -10,6 +10,7 @@ namespace RoslynMapper.Samples
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public string test;
     }
 
     public class B
@@ -17,6 +18,8 @@ namespace RoslynMapper.Samples
         public string Name { get; set; }
 
         public decimal Age;
+
+        public string test;
     }
 
     class Program
@@ -25,11 +28,13 @@ namespace RoslynMapper.Samples
         {
             A a = new A();
             a.Name = "Hello world!";
+            a.Age = 45;
+            a.test = "test";
 
             var engine = RoslynMapper.MapEngine.DefaultInstance;
 
-            engine.SetMapper<A, B>();
-            engine.SetMapper<B, A>();
+            engine.SetMapper<A, B>().Ignore(m => ((B)m).test);
+            //engine.SetMapper<B, A>();
 
             Console.WriteLine(engine.Builder.GenerateCode());
 

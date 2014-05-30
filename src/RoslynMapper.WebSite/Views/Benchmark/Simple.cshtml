@@ -1,0 +1,32 @@
+﻿@model RoslynMapper.WebSite.Models.BenchmarkModel
+@{
+    ViewBag.Title = "View";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <td>Name</td>
+                    <td>Initialize</td>
+                    <td>Count</td>
+                    <td>Elapse</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var r in Model.Results)
+                {
+                    <tr>
+                        <td></td>
+                        <td>@r.Name</td>
+                        <td>@r.Initialize</td>
+                        <td>@r.Count</td>
+                        <td>@r.Elapse</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -57,8 +57,11 @@
     <Compile Include="Convert\TypeConvert.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="IConfiguration.cs" />
+    <Compile Include="IMemberMapping.cs" />
     <Compile Include="Mapper\MapperBase.cs" />
-    <Compile Include="Mapping.cs" />
+    <Compile Include="Map\IMember.cs" />
+    <Compile Include="Map\IMembers.cs" />
+    <Compile Include="Map\Mapping.cs" />
     <Compile Include="MapEngine.cs" />
     <Compile Include="IMapper.cs" />
     <Compile Include="IMapping.cs" />
@@ -71,6 +74,10 @@
     <Compile Include="Map\MapKey.cs" />
     <Compile Include="Build\MapperBuilder.cs" />
     <Compile Include="Map\Mappers.cs" />
+    <Compile Include="Map\Member.cs" />
+    <Compile Include="Map\MemberKey.cs" />
+    <Compile Include="Map\MemberMapping.cs" />
+    <Compile Include="Map\Members.cs" />
     <Compile Include="Map\TypeMap.cs" />
     <Compile Include="Map\TypeMapFactory.cs" />
     <Compile Include="Map\TypeMaps.cs" />
