@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using RoslynMapper.Map;
 
 namespace RoslynMapper.Samples
 {
@@ -11,6 +14,8 @@ namespace RoslynMapper.Samples
         public string Name { get; set; }
         public int Age { get; set; }
         public string test;
+        public C c;
+        public C d;
     }
 
     public class B
@@ -20,6 +25,13 @@ namespace RoslynMapper.Samples
         public decimal Age;
 
         public string test;
+
+        public C c;
+    }
+
+    public class C
+    {
+        public string Name;
     }
 
     class Program
@@ -29,14 +41,14 @@ namespace RoslynMapper.Samples
             A a = new A();
             a.Name = "Hello world!";
             a.Age = 45;
-            a.test = "test";
+            a.test = "test";           
 
             var engine = RoslynMapper.MapEngine.DefaultInstance;
 
             engine.SetMapper<A, B>().Ignore(m => ((B)m).test);
-            //engine.SetMapper<B, A>();
+            engine.SetMapper<B, A>();
 
-            Console.WriteLine(engine.Builder.GenerateCode());
+            //Console.WriteLine(engine.Builder.GenerateCode());
 
             engine.Build();
 

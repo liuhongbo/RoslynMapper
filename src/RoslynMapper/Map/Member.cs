@@ -13,9 +13,10 @@ namespace RoslynMapper.Map
         MemberKey _key = null;
         MemberInfo _memberInfo = null;
 
-        public Member(MemberInfo memberInfo)
+        public Member(MemberInfo memberInfo, MemberPath path)
         {
             _memberInfo = memberInfo;
+            Path = path;
         }
 
         public MemberInfo MemberInfo
@@ -29,19 +30,23 @@ namespace RoslynMapper.Map
         {
             get
             {
-                return _key ?? new MemberKey(this.MemberInfo);
+                return _key ?? new MemberKey(this.MemberInfo, Path);
             }
         }
 
         public bool Ignored { get; set; }
         public IMember MapMember { get; set; }
+        public MemberPath Path { get; set; }
 
+        //https://github.com/AutoMapper/AutoMapper/blob/develop/src/AutoMapper/Internal/ReflectionHelper.cs
         public static Member FromLambdaExpression(LambdaExpression expression)
         {
             Expression expressionToCheck = expression;
 
             bool done = false;
-
+            string path = string.Empty;
+            MemberInfo memberInfo = null;
+            Type originType = null;
             while (!done)
             {
                 switch (expressionToCheck.NodeType)
@@ -54,23 +59,28 @@ namespace RoslynMapper.Map
                         break;
                     case ExpressionType.MemberAccess:
                         var memberExpression = ((MemberExpression)expressionToCheck);
-
-                        if (memberExpression.Expression.NodeType != ExpressionType.Parameter &&
-                            memberExpression.Expression.NodeType != ExpressionType.Convert)
+                        if (memberInfo == null)
                         {
-                            throw new ArgumentException(string.Format("Expression '{0}' must resolve to top-level member and not any child object's properties. Use a custom resolver on the child type or the AfterMap option instead.", expression), "lambdaExpression");
+                            memberInfo = memberExpression.Member;
                         }
-
-                        MemberInfo memberInfo = memberExpression.Member;
-
-                        return new Member(memberInfo);
+                        else
+                        {
+                            path += (string.IsNullOrEmpty(path) ? "" : ".") + memberExpression.Member.Name;
+                        }
+                        originType = memberExpression.Member.ReflectedType;
+                        expressionToCheck = memberExpression.Expression;
+                        break;
                     default:
                         done = true;
                         break;
                 }
             }
 
-            throw new Exception("Custom configuration for members is only supported for top-level individual members on a type.");
+            if ((memberInfo != null) && (originType != null))
+            {                
+                return new Member(memberInfo, new MemberPath(originType, path));
+            }
+            return null;
         }
     }
 }

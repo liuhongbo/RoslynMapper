@@ -77,6 +77,7 @@
     <Compile Include="Map\Member.cs" />
     <Compile Include="Map\MemberKey.cs" />
     <Compile Include="Map\MemberMapping.cs" />
+    <Compile Include="Map\MemberPath.cs" />
     <Compile Include="Map\Members.cs" />
     <Compile Include="Map\TypeMap.cs" />
     <Compile Include="Map\TypeMapFactory.cs" />
