@@ -70,6 +70,8 @@ namespace RoslynMapper.Map
             }
         }
 
+        public Action<T1, T2> Resolver { get; set; }
+
         public string CreateMapper()
         {
             string code = string.Empty;
@@ -141,6 +143,12 @@ namespace RoslynMapper.Map
             Type sourceType = SourceType;
             Type destinationType = DestinationType;
 
+            if (Resolver != null)
+            {
+                code = string.Format("{0}Resolve(t1, t2);\r\n", indent);
+                return code;
+            }
+
             //var  bindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetField | BindingFlags.SetField | BindingFlags.GetProperty | BindingFlags.SetProperty;
             //var sourceMembers = sourceType.GetMembers(bindingFlags);
             //var destMembers = destinationType.GetMembers(bindingFlags);
@@ -209,7 +217,7 @@ namespace RoslynMapper.Map
             string code = string.Empty;
             if (destinationMember.Resolver != null)
             {
-                code = string.Format("{0}MemberResolve(\"{1}\", t1 , t2);", indent, destinationMember.Id);
+                code = string.Format("{0}MemberResolve(\"{1}\", t1, t2);\r\n", indent, destinationMember.Id);
             }
             return code;
         }

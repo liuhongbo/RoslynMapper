@@ -192,14 +192,14 @@ namespace RoslynMapper.Benchmark
         }
 
         /*
-            Auto Mapper (simple) init: 216 milliseconds
-            Emit Mapper (simple) init: 81 milliseconds
-            Roslyn Mapper (simple) init: 2386 milliseconds
-            Auto Mapper (simple): 38667 milliseconds
-            BLToolkit (simple): 18243 milliseconds
-            Emit Mapper (simple): 157 milliseconds
-            Handwritten Mapper (simple): 39 milliseconds
-            Roslyn Mapper (simple): 39 milliseconds
+        Auto Mapper (simple) init: 217 milliseconds
+        Emit Mapper (simple) init: 62 milliseconds
+        Roslyn Mapper (simple) init: 2186 milliseconds
+        Auto Mapper (simple): 37722 milliseconds
+        BLToolkit (simple): 17274 milliseconds
+        Emit Mapper (simple): 154 milliseconds
+        Handwritten Mapper (simple): 51 milliseconds
+        Roslyn Mapper (simple): 39 milliseconds
          */
     }
 }

@@ -10,9 +10,9 @@ namespace RoslynMapper.Map
 {
     public class Mapping<T1, T2> : IMapping<T1, T2>
     {
-        private ITypeMap _typeMap = null;
+        private ITypeMap<T1,T2> _typeMap = null;
 
-        public Mapping(ITypeMap typeMap)
+        public Mapping(ITypeMap<T1,T2> typeMap)
         {
             _typeMap = typeMap;            
         }
@@ -53,6 +53,12 @@ namespace RoslynMapper.Map
         public IMapping<T1, T2> Resolve(Expression<Func<T2, object>> t2, Action<T1, T2> resolver)
         {
             return For(t2, m => m.Resolve(resolver));
+        }
+
+        public IMapping<T1, T2> Resolve(Action<T1, T2> resolver)
+        {
+            _typeMap.Resolver = resolver;
+            return this;
         }
 
         /// <summary>

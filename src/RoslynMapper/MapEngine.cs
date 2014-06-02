@@ -61,9 +61,9 @@ namespace RoslynMapper
 
         public IMapping<T1,T2> SetMapper<T1, T2>(string name)
         {
-            ITypeMap typeMap = null;
+            ITypeMap<T1,T2> typeMap = null;
 
-            typeMap = _typeMaps.GetTypeMap(new MapKey(typeof(T1), typeof(T2), name));
+            typeMap = _typeMaps.GetTypeMap<T1,T2>(name);
 
             if (typeMap == null)
             {

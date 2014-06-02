@@ -19,6 +19,14 @@ namespace RoslynMapper.Mapper
             get;
         }
 
+        public void Resolve(T1 t1, T2 t2)
+        {
+            if (TypeMap.Resolver != null)
+            {
+                TypeMap.Resolver(t1, t2);
+            }
+        }
+
         public void MemberResolve(string id, T1 t1, T2 t2)
         {
             IMember<T1,T2> member = TypeMap.Members.GetMember<T1, T2>(id);
