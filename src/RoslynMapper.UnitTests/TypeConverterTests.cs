@@ -51,11 +51,11 @@ namespace RoslynMapper.UnitTests
             }
         }
 
-        [Fact]
+        [Fact(Skip="check type converter on src/dest type not implemented yet")]
         public void Map_TypeWithCustomTypeConverter_UseCustomTypeConverterToMap()
         {
             Guid guid = Guid.NewGuid();
-            _mapper.SetMapper<Source, Destination>(guid.ToString());
+            _mapper.SetMapper<Source, Destination>(guid.ToString()).Bind(t1 => t1.Value, t2 => t2.OtherValue);
             _mapper.Build();
             var _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value = 4});
 

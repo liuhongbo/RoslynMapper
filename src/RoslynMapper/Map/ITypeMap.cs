@@ -13,6 +13,8 @@ namespace RoslynMapper.Map
         Type SourceType { get; }
         Type DestinationType { get; }
         IMembers Members { get; }
+        string CreateMapper();
+        string MapperName { get; }
     }
 
     public interface ITypeMap<T1, T2> : ITypeMap

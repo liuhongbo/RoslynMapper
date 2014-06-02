@@ -12,7 +12,12 @@ namespace RoslynMapper.Map
         MemberKey Key { get; }
         MemberInfo MemberInfo { get;}
         MemberPath Path { get; set; }
-        IMember MapMember { get; set; }
+        IMember BindMember { get; set; }
         bool Ignored { get; set;}        
+    }
+
+    public interface IMember<T1, T2> : IMember
+    {
+        Action<T1, T2> Resolver { get; set; }
     }
 }

@@ -17,18 +17,18 @@ namespace RoslynMapper.Map
             _typeMap = typeMap;            
         }
 
-        public IMapping<T1, T2> For(Expression<Func<T2, object>> t2, Action<IMemberMapping> mapping)
+        public IMapping<T1, T2> For(Expression<Func<T2, object>> t2, Action<IMemberMapping<T1,T2>> mapping)
         {
             IMember member = GetMember(t2);
-            var memberMapping = new MemberMapping(member);
+            var memberMapping = new MemberMapping<T1,T2>(member);
             mapping(memberMapping);
             return this;
         }
 
-        public IMapping<T1, T2> For(Expression<Func<T1, object>> t1, Action<IMemberMapping> mapping)
+        public IMapping<T1, T2> For(Expression<Func<T1, object>> t1, Action<IMemberMapping<T1, T2>> mapping)
         {
             IMember member = GetMember(t1);
-            var memberMapping = new MemberMapping(member);
+            var memberMapping = new MemberMapping<T1,T2>(member);
             mapping(memberMapping);
             return this;
         }
@@ -45,8 +45,14 @@ namespace RoslynMapper.Map
 
         public IMapping<T1, T2> Bind(Expression<Func<T1, object>> t1, Expression<Func<T2, object>> t2)
         {
+            IMember<T1, T2> member1 = GetMember(t1);
+            IMember<T1, T2> member2 = GetMember(t2);
+            return For(t2, m => m.Bind(t1));
+        }
 
-            return this;
+        public IMapping<T1, T2> Resolve(Expression<Func<T2, object>> t2, Action<T1, T2> resolver)
+        {
+            return For(t2, m => m.Resolve(resolver));
         }
 
         /// <summary>
@@ -54,10 +60,10 @@ namespace RoslynMapper.Map
         /// </summary>
         /// <param name="t1"></param>
         /// <returns></returns>
-        private IMember GetMember(Expression<Func<T1, object>> t1)
+        private IMember<T1, T2> GetMember(Expression<Func<T1, object>> t1)
         {
-            Member m = Member.FromLambdaExpression(t1);
-            var member = _typeMap.Members.GetMember(m.Key);
+            Member<T1, T2> m = Member<T1,T2>.FromLambdaExpression(t1);
+            var member = _typeMap.Members.GetMember<T1,T2>(m.Key);
             if (member == null)
             {
                 _typeMap.Members.AddMember(m);
@@ -71,10 +77,10 @@ namespace RoslynMapper.Map
         /// </summary>
         /// <param name="t2"></param>
         /// <returns></returns>
-        private IMember GetMember(Expression<Func<T2, object>> t2)
+        private IMember<T1, T2> GetMember(Expression<Func<T2, object>> t2)
         {
-            Member m = Member.FromLambdaExpression(t2);
-            var member = _typeMap.Members.GetMember(m.Key);
+            Member<T1, T2> m = Member<T1, T2>.FromLambdaExpression(t2);
+            var member = _typeMap.Members.GetMember<T1,T2>(m.Key);
             if (member == null)
             {
                 _typeMap.Members.AddMember(m);

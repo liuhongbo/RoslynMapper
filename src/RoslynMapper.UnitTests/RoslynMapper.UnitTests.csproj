@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindTests.cs" />
     <Compile Include="ConversionOperatorTests.cs" />
     <Compile Include="EnumTypeTests.cs" />
     <Compile Include="IConvertibleTests.cs" />

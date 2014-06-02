@@ -7,17 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace RoslynMapper.Map
-{
-    public class Member : IMember
+{ 
+    public class Member<T1,T2> : IMember<T1,T2>
     {
         MemberKey _key = null;
         MemberInfo _memberInfo = null;
 
-        public Member(MemberInfo memberInfo, MemberPath path)
+        public Member(MemberInfo memberInfo, MemberPath path)           
         {
             _memberInfo = memberInfo;
             Path = path;
-        }
+        }        
 
         public MemberInfo MemberInfo
         {
@@ -35,18 +35,20 @@ namespace RoslynMapper.Map
         }
 
         public bool Ignored { get; set; }
-        public IMember MapMember { get; set; }
+        public IMember BindMember { get; set; }
         public MemberPath Path { get; set; }
 
+        public Action<T1, T2> Resolver { get; set; }
+
         //https://github.com/AutoMapper/AutoMapper/blob/develop/src/AutoMapper/Internal/ReflectionHelper.cs
-        public static Member FromLambdaExpression(LambdaExpression expression)
+        public static new Member<T1,T2> FromLambdaExpression(LambdaExpression expression)
         {
             Expression expressionToCheck = expression;
 
             bool done = false;
             string path = string.Empty;
             MemberInfo memberInfo = null;
-            Type originType = null;
+            Type rootType = null;
             while (!done)
             {
                 switch (expressionToCheck.NodeType)
@@ -65,9 +67,9 @@ namespace RoslynMapper.Map
                         }
                         else
                         {
-                            path += (string.IsNullOrEmpty(path) ? "" : ".") + memberExpression.Member.Name;
+                            path = memberExpression.Member.Name + (string.IsNullOrEmpty(path) ? "" : ".") + path;
                         }
-                        originType = memberExpression.Member.ReflectedType;
+                        rootType = memberExpression.Member.ReflectedType;
                         expressionToCheck = memberExpression.Expression;
                         break;
                     default:
@@ -76,9 +78,9 @@ namespace RoslynMapper.Map
                 }
             }
 
-            if ((memberInfo != null) && (originType != null))
+            if ((memberInfo != null) && (rootType != null))
             {                
-                return new Member(memberInfo, new MemberPath(originType, path));
+                return new Member<T1,T2>(memberInfo, new MemberPath(rootType, path));
             }
             return null;
         }

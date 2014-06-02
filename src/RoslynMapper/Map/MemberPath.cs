@@ -8,25 +8,24 @@ namespace RoslynMapper.Map
 {
     public class MemberPath
     {
-
-        public MemberPath(Type originType, string accessPath)
+        public MemberPath(Type rootType, string accessPath)
         {
-            OriginType = originType;
+            RootType = rootType;
             AccessPath = accessPath;
         }
 
-        public Type OriginType { get; set; }
+        public Type RootType { get; set; }
         public string AccessPath { get; set; }
 
         public override bool Equals(object obj)
         {
-            var mp = (MemberPath)obj;
-            return (mp.OriginType.Equals(this.OriginType) && (mp.AccessPath == this.AccessPath));
+            var rhs = (MemberPath)obj;
+            return (rhs.RootType.Equals(this.RootType) && (rhs.AccessPath == this.AccessPath));
         }
 
         public override int GetHashCode()
         {
-            return (OriginType.GetHashCode() * 397 + AccessPath.GetHashCode());
+            return (RootType.GetHashCode() * 397 + AccessPath.GetHashCode());
         }
     }
 }
