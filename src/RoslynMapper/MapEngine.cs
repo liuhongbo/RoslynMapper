@@ -76,7 +76,7 @@ namespace RoslynMapper
 
         public bool Build()
         {
-            var mappers = _mapperBuidler.Build(_typeMaps.GetTypeMaps().Where(m=>(_mappers.GetMapper(m.Key)==null)));
+            var mappers = _mapperBuidler.Build(_typeMaps.GetTypeMaps().Where(m=>(_mappers.GetMapper(m.Key)==null)), this);
             _mappers.AddMappers(mappers);
             return (mappers.Count()>0);
         }

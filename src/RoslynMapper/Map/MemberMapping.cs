@@ -9,9 +9,9 @@ namespace RoslynMapper.Map
 {
     public class MemberMapping<T1,T2> : IMemberMapping<T1,T2>
     {
-        private IMember _member;
+        private IMember<T1,T2> _member;
 
-        public MemberMapping(IMember member)
+        public MemberMapping(IMember<T1,T2> member)
         {
             _member = member;
         }
@@ -29,7 +29,7 @@ namespace RoslynMapper.Map
 
         public void Resolve(Action<T1, T2> resolver)
         {
-
+            _member.Resolver = resolver;
         }
     }
 }

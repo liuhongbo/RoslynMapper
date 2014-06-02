@@ -20,6 +20,7 @@ namespace RoslynMapper
         IMapping<T1, T2> Ignore(Expression<Func<T2, object>> t2);
         IMapping<T1, T2> Ignore(Expression<Func<T1, object>> t1);
         IMapping<T1, T2> Bind(Expression<Func<T1, object>> t1, Expression<Func<T2, object>> t2);
+        //member resolver
         IMapping<T1, T2> Resolve(Expression<Func<T2, object>> t2, Action<T1, T2> resolver);
     }
 }

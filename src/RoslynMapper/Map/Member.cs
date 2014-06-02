@@ -35,7 +35,7 @@ namespace RoslynMapper.Map
         }
 
         public bool Ignored { get; set; }
-        public IMember BindMember { get; set; }
+        public IMember<T1,T2> BindMember { get; set; }
         public MemberPath Path { get; set; }
 
         public Action<T1, T2> Resolver { get; set; }

@@ -77,6 +77,14 @@ namespace RoslynMapper.Map
             code = string.Format(@"
     class {0}:{1}
     {{
+        private IMapEngine _engine;
+        private ITypeMap _typeMap;
+        public {0}(IMapEngine engine, ITypeMap typeMap)
+        {{
+            _engine = engine;
+            _typeMap = typeMap;
+        }}
+
         public {3} Map({2} t1)
         {{
             return Map(t1, new {3}());
@@ -92,8 +100,24 @@ namespace RoslynMapper.Map
         {{
             return {5};
         }}
+
+        public override IMapEngine MapEngine
+        {{
+            get
+            {{
+                return  _engine;
+            }}
+        }}
+
+        public override ITypeMap<{2},{3}> TypeMap
+        {{
+            get
+            {{
+                return (ITypeMap<{2},{3}>)_typeMap;
+            }}
+        }}
     }}
-", GetClassName(), GetBaseTypeName(), GetTypeFullName(SourceType), GetTypeFullName(DestinationType), GetMapBody("            "), GetHashCode());
+", GetClassName(), GetBaseTypeName(), GetTypeFullName(SourceType), GetTypeFullName(DestinationType), GetMapBody("            "), GetHashCode(), Name);
 
             return code;
         }
@@ -126,7 +150,7 @@ namespace RoslynMapper.Map
             MemberPath path = new MemberPath(destinationType, string.Empty);
             foreach (var destMemberInfo in destMemberInfos)
             {
-                IMember destMember = Members.GetMember(new MemberKey(destMemberInfo, path));
+                IMember<T1,T2> destMember = Members.GetMember<T1,T2>(new MemberKey(destMemberInfo, path));
                 if (destMember != null)
                 {
                     if (destMember.Ignored) continue;
@@ -134,11 +158,16 @@ namespace RoslynMapper.Map
                 else
                 {
                     destMember = new Member<T1,T2>(destMemberInfo, path);
+                    //Members.AddMember(destMember);
                 }
-                IMember sourceMember = null;
+                IMember<T1,T2> sourceMember = null;
                 if (destMember.BindMember != null)
                 {
                     sourceMember = destMember.BindMember;
+                }
+                else if (destMember.Resolver != null)
+                {
+                    
                 }
                 else
                 {
@@ -174,7 +203,17 @@ namespace RoslynMapper.Map
             return null;
         }
 
-        private string GetMemberMapBody(IMember sourceMember, IMember destinationMember, string indent)
+        private string GetMemberMapBody(IMember<T1, T2> destinationMember, string indent)
+        {
+            string code = string.Empty;
+            if (destinationMember.Resolver != null)
+            {
+
+            }
+            return code;
+        }
+
+        private string GetMemberMapBody(IMember<T1, T2> sourceMember, IMember<T1, T2> destinationMember, string indent)
         {
             MemberInfo sourceMemberInfo = sourceMember.MemberInfo;
             MemberInfo destinationMemberInfo = destinationMember.MemberInfo;
@@ -213,7 +252,7 @@ namespace RoslynMapper.Map
             return code;
         }
 
-        private string GetMemberFullPathName(IMember member)
+        private string GetMemberFullPathName(IMember<T1, T2> member)
         {
             if (string.IsNullOrEmpty(member.Path.AccessPath))
             {

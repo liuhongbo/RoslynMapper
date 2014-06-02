@@ -33,10 +33,15 @@ namespace RoslynMapper.Samples
 
             var mapper = RoslynMapper.MapEngine.DefaultInstance;
             mapper.SetMapper<A, B>();
-            mapper.Build();
-
-            var b = mapper.Map<A, B>(a);
-            Console.WriteLine(b.Name);
+            if (mapper.Build())
+            {
+                var b = mapper.Map<A, B>(a);
+                Console.WriteLine(b.Name);
+            }
+            else
+            {
+                Console.WriteLine("build failed.");
+            }
 
         }
     }

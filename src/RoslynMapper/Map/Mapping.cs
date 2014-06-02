@@ -19,7 +19,7 @@ namespace RoslynMapper.Map
 
         public IMapping<T1, T2> For(Expression<Func<T2, object>> t2, Action<IMemberMapping<T1,T2>> mapping)
         {
-            IMember member = GetMember(t2);
+            IMember<T1,T2> member = GetMember(t2);
             var memberMapping = new MemberMapping<T1,T2>(member);
             mapping(memberMapping);
             return this;
@@ -27,7 +27,7 @@ namespace RoslynMapper.Map
 
         public IMapping<T1, T2> For(Expression<Func<T1, object>> t1, Action<IMemberMapping<T1, T2>> mapping)
         {
-            IMember member = GetMember(t1);
+            IMember<T1, T2> member = GetMember(t1);
             var memberMapping = new MemberMapping<T1,T2>(member);
             mapping(memberMapping);
             return this;
