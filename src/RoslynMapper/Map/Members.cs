@@ -20,6 +20,11 @@ namespace RoslynMapper.Map
             return (IMember<T1, T2>)(GetMember(key));
         }
 
+        public IMember<T1, T2> GetMember<T1, T2>(string id)
+        {
+            return (IMember<T1, T2>)this.FirstOrDefault(m => m.Value.Id == id).Value;
+        }
+
         public void AddMember(IMember Member)
         {
             this.Add(Member.Key, Member);

@@ -167,7 +167,8 @@ namespace RoslynMapper.Map
                 }
                 else if (destMember.Resolver != null)
                 {
-                    
+                    code += GetMemberMapBody(destMember, indent);
+                    continue;
                 }
                 else
                 {
@@ -208,7 +209,7 @@ namespace RoslynMapper.Map
             string code = string.Empty;
             if (destinationMember.Resolver != null)
             {
-
+                code = string.Format("{0}MemberResolve(\"{1}\", t1 , t2);", indent, destinationMember.Id);
             }
             return code;
         }

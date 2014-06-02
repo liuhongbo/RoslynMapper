@@ -11,7 +11,8 @@ namespace RoslynMapper.Map
     {
         MemberKey Key { get; }
         MemberInfo MemberInfo { get;}
-        MemberPath Path { get; set; }        
+        MemberPath Path { get; set; }
+        string Id { get; }
         bool Ignored { get; set;}        
     }
 

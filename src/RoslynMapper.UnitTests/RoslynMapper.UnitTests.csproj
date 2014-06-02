@@ -60,6 +60,7 @@
     <Compile Include="MapEngineTests.cs" />
     <Compile Include="Convert\TypeConvertTests.cs" />
     <Compile Include="Map\MemberTests.cs" />
+    <Compile Include="MemberResolveTests.cs" />
     <Compile Include="TypeConverterTests.cs" />
     <Compile Include="ValueTypesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

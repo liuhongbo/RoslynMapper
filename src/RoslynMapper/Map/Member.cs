@@ -10,8 +10,9 @@ namespace RoslynMapper.Map
 { 
     public class Member<T1,T2> : IMember<T1,T2>
     {
-        MemberKey _key = null;
-        MemberInfo _memberInfo = null;
+        private MemberKey _key = null;
+        private MemberInfo _memberInfo = null;
+        private string _id = null;
 
         public Member(MemberInfo memberInfo, MemberPath path)           
         {
@@ -31,6 +32,18 @@ namespace RoslynMapper.Map
             get
             {
                 return _key ?? new MemberKey(this.MemberInfo, Path);
+            }
+        }
+
+        public string Id
+        {
+            get
+            {
+                if (_id == null)
+                {
+                    _id = Guid.NewGuid().ToString();
+                }
+                return _id;
             }
         }
 

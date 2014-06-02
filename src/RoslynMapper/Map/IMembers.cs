@@ -10,6 +10,7 @@ namespace RoslynMapper.Map
     {
         IMember GetMember(MemberKey key);
         IMember<T1, T2> GetMember<T1, T2>(MemberKey key);
+        IMember<T1, T2> GetMember<T1, T2>(string id);
         void AddMember(IMember Member);
         void RemoveMember(IMember Member);
         IEnumerable<IMember> GetMembers();

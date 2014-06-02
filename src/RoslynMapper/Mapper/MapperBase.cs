@@ -19,10 +19,16 @@ namespace RoslynMapper.Mapper
             get;
         }
 
-        public void MemberResolve(MemberKey key, T1 t1, T2 t2)
+        public void MemberResolve(string id, T1 t1, T2 t2)
         {
-            var mapKey = new MapKey(typeof(T1), typeof(T2), TypeMap.Name);
-
+            IMember<T1,T2> member = TypeMap.Members.GetMember<T1, T2>(id);
+            if (member != null)
+            {
+                if (member.Resolver != null)
+                {
+                    member.Resolver(t1, t2);
+                }
+            }
         }
     }
 }
