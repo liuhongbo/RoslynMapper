@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Benchmark.cs" />
     <Compile Include="HelloWorld.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="Program.cs" />
@@ -65,6 +66,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RoslynMapper.Benchmark\RoslynMapper.Benchmark.csproj">
+      <Project>{9c68da86-9430-4536-ab11-e1880bdfef13}</Project>
+      <Name>RoslynMapper.Benchmark</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RoslynMapper\RoslynMapper.csproj">
       <Project>{3a8ce759-be75-4842-adcf-d4fe0ceb7908}</Project>
       <Name>RoslynMapper</Name>

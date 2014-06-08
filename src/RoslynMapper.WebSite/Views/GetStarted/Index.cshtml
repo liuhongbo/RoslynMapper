@@ -11,15 +11,13 @@
     <h3>Install</h3>
     <p>To install RoslynMapper, run the following command in the <a href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console">Package Manager Console</a></p>
 
-    <div class="highlight">
-        <pre class="prettyprint"><code class="powershell">Install-Package RoslynMapper -Pre
-</code></pre>
-    </div>
+    
+    <pre class="prettyprint">Install-Package RoslynMapper -Pre</pre>
+    
     <p>Then start to use RoslynMapper in your project.</p>
     <h3>Hello world</h3>
     <p>Define the source type and destination type.</p>
-    <div class="highlight">
-        <pre class="prettyprint"><code class="c">
+<pre class="prettyprint">
 public class A
 {
     public string Name { get; set; }
@@ -28,24 +26,20 @@ public class B
 {
     public string Name;
 }
-</code></pre>
-    </div>
+</pre>
     <p>Set up the mapper(s) and build it in your program startup.</p>
-    <div class="highlight">
-        <pre class="prettyprint"><code class="c">
+<pre class="prettyprint">
 var mapper = RoslynMapper.MapEngine.DefaultInstance;
-mapper.SetMapper<a, b>();
+mapper.SetMapper&lt;a, b&gt;();
 mapper.Build();
-</code></pre>
-    </div>
+</pre>
     <p>Map the object from A to B.</p>
-    <div class="highlight">
-        <pre class="prettyprint"><code class="c">
-A a = new A() { Name = "Hello World" };
+<pre class="prettyprint">
+A a = new A() { Name = &quot;Hello World&quot; };
 var b = mapper.Map&lt;a, b&gt;(a);
 Console.WriteLine(b.Name);
-</code></pre>
-    </div>    
+</pre>
+    
     <p>For more inforamtion, read the <a href="@Url.Action("Index","Document")">document</a>.</p>
 </div>
 

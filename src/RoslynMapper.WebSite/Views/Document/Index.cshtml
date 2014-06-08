@@ -1,24 +1,77 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Document";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
     <h1 class="page-header">Document</h1>
-    <p class="lead">Learn the every detail of RoslynMapper library.</p>
     <p class="muted">document for v0.1.7-alpha</p>
 
-    <ul class="list-unstyled">
-        <li><a href="#name-convention">Name convention</a></li>
-    </ul>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="name-convention">
+                <h3>Name convention</h3>
+            </div>
 
-    <div id="name-convention">
-        <h3>Name convention</h3>
-    </div>
+            <div id="setup-mappers">
+                <h3>Setup Mappers</h3>
+            </div>
 
-    <div id="name-convention">
-        <h3>Setup Mappers in program startup</h3>
+            <div id="member-bind">
+                <h3>Member bind</h3>
+                <p>By default, RoslynMapper use the member's name to match the members. For example,</p>
+                <div>
+<pre class="prettyprint">
+public class A
+{
+    public string Name { get; set; }
+}
+public class B
+{
+    public string Name;
+}</pre>
+                </div>
+                <p>The setup for the mapper does not need to specify how the members bind.</p>
+                <div>
+<pre class="prettyprint">
+mapper.SetMapper&lt;A,B&gt;();
+</pre>
+                </div>
+                <p>However if you have two members that have different name but you want to bind them, for example,</p>
+<pre class="prettyprint">
+public class A
+{
+    public string Name { get; set; }
+}
+public class B
+{
+    public string OtherName;
+}</pre>
+                <p>You can use the Bind method to sepecify the custom member bind.</p>
+<pre class="prettyprint">
+mapper.SetMapper&lt;A, B&gt;().Bind(t1=&gt;t1.Name, t2=&gt;t2.OtherName);
+</pre>                
+            </div>
+
+            <div id="tyoe-resolver">
+                <h3>Type resolver</h3>
+            </div>
+
+            <div id="member-resolver">
+                <h3>Member resolver</h3>
+            </div>
+
+
+        </div>
+        <div class="col-md-2">
+            <ul>
+                <li><a href="#name-convention">Name convention</a></li>
+                <li><a href="#name-convention">Setup Mappers</a></li>
+                <li><a href="#name-convention">Member bind</a></li>
+                <li><a href="#name-convention">Type resolver</a></li>
+                <li><a href="#name-convention">Member resolver</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 
