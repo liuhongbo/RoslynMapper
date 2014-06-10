@@ -44,5 +44,25 @@ namespace RoslynMapper.Map
             }
             return members;
         }
+
+        public IEnumerable<IMember<T1, T2>> GetMembers<T1, T2>()
+        {
+            var members = new List<IMember<T1,T2>>(this.Count);
+            foreach (var m in this)
+            {
+                members.Add((IMember<T1,T2>)m.Value);
+            }
+            return members; 
+        }
+
+        public IEnumerable<IMember<T1, T2>> GetMembers<T1, T2>(Type rootType)
+        {
+            return GetMembers<T1, T2>().Where(m => m.Path.RootType.Equals(rootType));
+        }
+
+        public IEnumerable<IMember<T1, T2>> GetMembers<T1, T2>(Type rootType, MemberPath path)
+        {
+            return GetMembers<T1, T2>().Where(m => m.Path.Equals(path));
+        }
     }
 }

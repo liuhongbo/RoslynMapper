@@ -376,7 +376,7 @@ namespace RoslynMapper.Convert
 
         #region Helper
 
-        protected static bool IsIntegralType(Type type)
+        public static bool IsIntegralType(Type type)
         {
             return ((type == typeof(sbyte)) ||
                   (type == typeof(byte)) ||
@@ -389,13 +389,13 @@ namespace RoslynMapper.Convert
                   (type == typeof(char)));
         }
 
-        protected static bool IsFloatingPointType(Type type)
+        public static bool IsFloatingPointType(Type type)
         {
             return ((type == typeof(float)) ||
                   (type == typeof(double)));
         }
 
-        protected static bool IsNumericType(Type type)
+        public static bool IsNumericType(Type type)
         {
             return ((IsIntegralType(type)) ||
                    (IsFloatingPointType(type)) ||
@@ -403,13 +403,13 @@ namespace RoslynMapper.Convert
         }
 
         //http://msdn.microsoft.com/en-us/library/aa691144(v=vs.71).aspx
-        protected static bool IsSimpleType(Type type)
+        public static bool IsSimpleType(Type type)
         {
             return (IsNumericType(type) ||
                     (type == typeof(bool)));
         }
 
-        protected static bool IsBuildInType(Type type)
+        public static bool IsBuildInType(Type type)
         {
             return (IsSimpleType(type) ||
                     (type == typeof(object)) ||

@@ -30,7 +30,7 @@ namespace RoslynMapper.UnitTests
         }
      
         [Fact]
-        public void PropertyValue()
+        public void Map_Property_Value()
         {
             Guid guid = Guid.NewGuid();
             _mapper.SetMapper<Source, Destination>(guid.ToString());
@@ -41,7 +41,7 @@ namespace RoslynMapper.UnitTests
         }
 
         [Fact]
-        public void FieldValue()
+        public void Map_Field_Value()
         {
             Guid guid = Guid.NewGuid();
             _mapper.SetMapper<Source, Destination>(guid.ToString());

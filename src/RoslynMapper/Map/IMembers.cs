@@ -14,5 +14,8 @@ namespace RoslynMapper.Map
         void AddMember(IMember Member);
         void RemoveMember(IMember Member);
         IEnumerable<IMember> GetMembers();
+        IEnumerable<IMember<T1, T2>> GetMembers<T1, T2>();
+        IEnumerable<IMember<T1,T2>> GetMembers<T1,T2>(Type rootType);
+        IEnumerable<IMember<T1, T2>> GetMembers<T1,T2>(Type rootType, MemberPath path);
     }
 }
