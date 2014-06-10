@@ -52,7 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindTests.cs" />
+    <Compile Include="MemberBindTests.cs" />
     <Compile Include="ConversionOperatorTests.cs" />
     <Compile Include="EnumTypeTests.cs" />
     <Compile Include="IConvertibleTests.cs" />
@@ -61,6 +61,7 @@
     <Compile Include="Convert\TypeConvertTests.cs" />
     <Compile Include="Map\MemberTests.cs" />
     <Compile Include="MemberResolveTests.cs" />
+    <Compile Include="NestedMemberBindTests.cs" />
     <Compile Include="NestedMemberTests.cs" />
     <Compile Include="TypeConverterTests.cs" />
     <Compile Include="TypeResolveTests.cs" />

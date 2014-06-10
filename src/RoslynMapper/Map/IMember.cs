@@ -13,7 +13,8 @@ namespace RoslynMapper.Map
         MemberInfo MemberInfo { get;}
         MemberPath Path { get; set; }
         string Id { get; }
-        bool Ignored { get; set;}        
+        bool Ignored { get; set;}
+        string FullName { get; }
     }
 
     public interface IMember<T1, T2> : IMember

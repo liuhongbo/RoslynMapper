@@ -179,16 +179,39 @@ namespace RoslynMapper.Map
             BuildMembers(sourceType, new MemberPath(sourceType, string.Empty));
             BuildMembers(destinationType, new MemberPath(destinationType, string.Empty));
 
-            code += GetMemberMapBody(null, new MemberPath(DestinationType, string.Empty), indent);
+            code += GetMemberMapBody(null, new MemberPath(DestinationType, string.Empty), null, indent);
 
             return code;
         }
 
 
-        private IMember<T1, T2> GetBindSourceMember(IMember<T1, T2> destMember)
+        private IMember<T1, T2> GetBindSourceMember(IMember<T1, T2> destMember, IMember<T1,T2> binder)
         {
             if (destMember.BindMember != null) return destMember.BindMember;
-            var srcMember = Members.GetMembers<T1, T2>(SourceType, new MemberPath(SourceType, destMember.Path.AccessPath)).Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name).FirstOrDefault();
+
+            IMember<T1, T2> srcMember = null;
+
+            if (binder != null)
+            {
+                var binderPath = new MemberPath(SourceType,binder.FullName);
+                srcMember = Members.GetMembers<T1, T2>(SourceType, binderPath)
+                    .Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name)
+                    .FirstOrDefault();
+                if (srcMember != null)
+                {
+                    return srcMember;
+                }
+                else
+                {
+                    srcMember = Members.GetMembers<T1, T2>(SourceType).Where(m => m.Path <= binderPath).FirstOrDefault();
+                    if (srcMember != null)
+                    {
+                        return srcMember;
+                    }
+                }
+            }
+
+            srcMember = Members.GetMembers<T1, T2>(SourceType, new MemberPath(SourceType, destMember.Path.AccessPath)).Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name).FirstOrDefault();
             if (srcMember != null) return srcMember;
 
             return Members.GetMembers<T1, T2>(SourceType).Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name).FirstOrDefault();
@@ -214,14 +237,14 @@ namespace RoslynMapper.Map
             return null;
         }
 
-        private string GetMemberMapBody(IMember<T1, T2> destMember, MemberPath path,  string indent)
+        private string GetMemberMapBody(IMember<T1, T2> destMember, MemberPath path, IMember<T1,T2> binder, string indent)
         {
             string code = string.Empty;
             if (destMember == null) //root
             {
                 foreach (var m in Members.GetMembers<T1, T2>(DestinationType, path))
                 {
-                    code += GetMemberMapBody(m, path, indent);
+                    code += GetMemberMapBody(m, path, null, indent);
                 }
             }
             else
@@ -237,10 +260,11 @@ namespace RoslynMapper.Map
                 if (destMember.BindMember != null)
                 {
                     sourceMember = destMember.BindMember;
+                    binder = sourceMember;
                 }
                 else
                 {
-                    sourceMember = GetBindSourceMember(destMember);
+                    sourceMember = GetBindSourceMember(destMember, binder);
                 }
 
                 if (sourceMember != null)
@@ -248,11 +272,11 @@ namespace RoslynMapper.Map
                     var c = GetMemberMapBody(sourceMember, destMember, indent);
                     if (string.IsNullOrEmpty(c))
                     {
-                        code += string.Format("{0}t2.{1}=new {2}();\r\n", indent, GetMemberFullPathName(destMember), NormalizedTypeFullName(GetMemberType(destMember.MemberInfo)));
+                        code += string.Format("{0}if (t2.{1} == null) t2.{1} = new {2}();\r\n", indent, GetMemberFullPathName(destMember), NormalizedTypeFullName(GetMemberType(destMember.MemberInfo)));
                         var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".")+ destMember.MemberInfo.Name) ;
                         foreach (var m in Members.GetMembers<T1, T2>(DestinationType, memberPath))
                         {
-                            code += GetMemberMapBody(m, memberPath, indent);
+                            code += GetMemberMapBody(m, memberPath, binder, indent);
                         }
                     }
                     else

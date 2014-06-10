@@ -51,6 +51,18 @@ namespace RoslynMapper.Map
         public IMember<T1,T2> BindMember { get; set; }
         public MemberPath Path { get; set; }
 
+
+        /// <summary>
+        /// path+name
+        /// </summary>
+        public string FullName
+        {
+            get
+            {
+                return Path.AccessPath + (string.IsNullOrEmpty(Path.AccessPath) ? "" : ".") + MemberInfo.Name;
+            }
+        }
+
         public Action<T1, T2> Resolver { get; set; }
 
         //https://github.com/AutoMapper/AutoMapper/blob/develop/src/AutoMapper/Internal/ReflectionHelper.cs
