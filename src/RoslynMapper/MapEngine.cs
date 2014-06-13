@@ -95,6 +95,20 @@ namespace RoslynMapper
             return mapper.Map(t1, t2);
         }
 
+        public T2 Map<T1, T2>(string name, T1 t1)
+        {
+            var mapper = GetMapper<T1, T2>(name);
+            if (mapper == null) return default(T2);
+            return mapper.Map(t1);
+        }
+
+        public T2 Map<T1, T2>(string name, T1 t1, T2 t2)
+        {
+            var mapper = GetMapper<T1, T2>(name);
+            if (mapper == null) return default(T2);
+            return mapper.Map(t1, t2);
+        }
+
         #endregion
 
         #region IBuilder Inteface

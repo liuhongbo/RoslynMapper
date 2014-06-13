@@ -219,7 +219,7 @@ namespace RoslynMapper.Map
 
         private IEnumerable<MemberInfo> GetMemberInfos(Type type)
         {
-            return ((MemberInfo[])type.GetProperties()).Concat((MemberInfo[])type.GetFields());
+            return ((MemberInfo[])type.GetProperties()).Concat((MemberInfo[])type.GetFields());//.Concat((MemberInfo[])type.GetMethods().Where(m => m.GetParameters().Length == 0));
         }
 
         private Type GetMemberType(MemberInfo member)
