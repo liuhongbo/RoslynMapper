@@ -137,9 +137,9 @@ namespace RoslynMapper.Map
         }
 
 
-        protected void BuildMembers(Type type, MemberPath path)
+        protected void BuildMembers(Type type, MemberPath path, bool includeMethods = false)
         {
-            var memberInfos = GetMemberInfos(type);
+            var memberInfos = GetMemberInfos(type, includeMethods);
 
             foreach (var memberInfo in memberInfos)
             {
@@ -151,10 +151,10 @@ namespace RoslynMapper.Map
                 }
 
                 Type memberType = GetMemberType(memberInfo);
-                
+
                 if (!member.Ignored)
                 {
-                    if ((!TypeConvert.IsBuildInType(memberType)) && (!memberType.IsEnum))
+                    if ( !(memberInfo is MethodInfo) && (!TypeConvert.IsBuildInType(memberType)) && (!memberType.IsEnum))
                     {
                         var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".") + memberInfo.Name);
                         BuildMembers(memberType, memberPath);
@@ -176,7 +176,7 @@ namespace RoslynMapper.Map
                 return code;
             }
 
-            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty));
+            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty), true);
             BuildMembers(destinationType, new MemberPath(destinationType, string.Empty));
 
             code += GetMemberMapBody(null, new MemberPath(DestinationType, string.Empty), null, indent);
@@ -217,9 +217,16 @@ namespace RoslynMapper.Map
             return Members.GetMembers<T1, T2>(SourceType).Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name).FirstOrDefault();
         }
 
-        private IEnumerable<MemberInfo> GetMemberInfos(Type type)
+        private IEnumerable<MemberInfo> GetMemberInfos(Type type, bool includeMethods = false)
         {
-            return ((MemberInfo[])type.GetProperties()).Concat((MemberInfo[])type.GetFields());//.Concat((MemberInfo[])type.GetMethods().Where(m => m.GetParameters().Length == 0));
+            var memberInfos =  ((MemberInfo[])type.GetProperties()).Concat((MemberInfo[])type.GetFields());
+
+            if (includeMethods)
+            {
+                memberInfos = memberInfos.Concat((IEnumerable<MemberInfo>)type.GetMethods().Where(m => (m.GetParameters().Length == 0) && (m.ReturnType != typeof(void)) && (!m.IsSpecialName)));
+            }
+
+            return memberInfos;
         }
 
         private Type GetMemberType(MemberInfo member)
@@ -228,10 +235,13 @@ namespace RoslynMapper.Map
             {
                 return (member as FieldInfo).FieldType;
             }
-
-            if (member is PropertyInfo)
+            else if (member is PropertyInfo)
             {
                 return (member as PropertyInfo).PropertyType;
+            }
+            else if (member is MethodInfo)
+            {
+                return (member as MethodInfo).ReturnType;
             }
 
             return null;
@@ -313,27 +323,27 @@ namespace RoslynMapper.Map
                 (destinationType.IsAssignableFrom(sourceType)) ||
                 (_typeConvert.CanImplicitConvert(sourceType, destinationType)))
             {
-                code = string.Format("{0}t2.{1}=t1.{2};\r\n", indent, GetMemberFullPathName(destinationMember), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = t1.{2};\r\n", indent, GetMemberFullPathName(destinationMember), GetMemberFullPathName(sourceMember));
             }
             else if (_typeConvert.CanExplicitConvert(sourceType, destinationType))
             {
-                code = string.Format("{0}t2.{1}=({2})t1.{3};\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = ({2})t1.{3};\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
             }
             else if (destinationType.IsEnum)
             {
-                code = string.Format("{0}t2.{1}=({2})Enum.ToObject(typeof({2}),t1.{3});\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = ({2})Enum.ToObject(typeof({2}),t1.{3});\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
             }
             else if (_typeConvert.CanIConvertibleConvert(sourceType, destinationType))
             {
-                code = string.Format("{0}t2.{1}=({2})System.Convert.ChangeType(t1.{3},typeof({2}));\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = ({2})System.Convert.ChangeType(t1.{3},typeof({2}));\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
             }
             else if (_typeConvert.CanTypeConverterConvertFrom(sourceType, destinationType))
             {
-                code = string.Format("{0}t2.{1}=({2})TypeDescriptor.GetConverter(typeof({2})).ConvertFrom(t1.{3});\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = ({2})TypeDescriptor.GetConverter(typeof({2})).ConvertFrom(t1.{3});\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), GetMemberFullPathName(sourceMember));
             }
             else if (_typeConvert.CanTypeConverterConvertTo(sourceType, destinationType))
             {
-                code = string.Format("{0}t2.{1}=({2})TypeDescriptor.GetConverter(typeof({3})).ConvertTo(t1.{4},typeof({2}));\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), NormalizedTypeFullName(GetMemberType(sourceMemberInfo)), GetMemberFullPathName(sourceMember));
+                code = string.Format("{0}t2.{1} = ({2})TypeDescriptor.GetConverter(typeof({3})).ConvertTo(t1.{4},typeof({2}));\r\n", indent, GetMemberFullPathName(destinationMember), NormalizedTypeFullName(GetMemberType(destinationMemberInfo)), NormalizedTypeFullName(GetMemberType(sourceMemberInfo)), GetMemberFullPathName(sourceMember));
             }
             return code;
         }
@@ -342,11 +352,25 @@ namespace RoslynMapper.Map
         {
             if (string.IsNullOrEmpty(member.Path.AccessPath))
             {
-                return member.MemberInfo.Name;
+                if (member.MemberInfo is MethodInfo)
+                {
+                    return member.MemberInfo.Name + "()";
+                }
+                else
+                {
+                    return member.MemberInfo.Name;
+                }
             }
             else
             {
-                return member.Path.AccessPath + "." + member.MemberInfo.Name;
+                if (member.MemberInfo is MethodInfo)
+                {
+                    return member.Path.AccessPath + "." + member.MemberInfo.Name + "()";
+                }
+                else
+                {
+                    return member.Path.AccessPath + "." + member.MemberInfo.Name;
+                }
             }
         }
 

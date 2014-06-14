@@ -8,23 +8,21 @@ using RoslynMapper;
 
 namespace RoslynMapper.UnitTests
 {
-    public class ValueTypesTests: IClassFixture<MapEngineFixture>
+    public class PropertyValueTypeTests: IClassFixture<MapEngineFixture>
     {
         private Destination _destination;
         private IMapEngine _mapper;
         public class Source
         {
-            public int Value1 { get; set; }
-            public string Value2 { get; set; }
+            public int Value1 { get; set; }            
         }
 
         public struct Destination
         {
-            public int Value1 { get; set; }
-            public string Value2;
+            public int Value1 { get; set; }            
         }
 
-        public ValueTypesTests(MapEngineFixture fixture)
+        public PropertyValueTypeTests(MapEngineFixture fixture)
         {
             _mapper = fixture.Engine;
         }
@@ -35,20 +33,76 @@ namespace RoslynMapper.UnitTests
             Guid guid = Guid.NewGuid();
             _mapper.SetMapper<Source, Destination>(guid.ToString());
             _mapper.Build();
-            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value1 = 4, Value2 = "hello" });            
+            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value1 = 4});            
 
             Assert.Equal(_destination.Value1, 4);
         }
+        
+    }
 
+    public class FieldValueTypeTests: IClassFixture<MapEngineFixture>
+    {
+        private Destination _destination;
+        private IMapEngine _mapper;
+        public class Source
+        {           
+            public string Value2 { get; set; }           
+        }
+
+        public struct Destination
+        {
+            public string Value2;
+        }
+
+        public FieldValueTypeTests(MapEngineFixture fixture)
+        {
+            _mapper = fixture.Engine;
+        }     
+       
         [Fact]
         public void Map_Field_Value()
         {
             Guid guid = Guid.NewGuid();
             _mapper.SetMapper<Source, Destination>(guid.ToString());
             _mapper.Build();
-            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value1 = 4, Value2 = "hello world" });
+            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value2 = "hello world" });
 
             Assert.Equal(_destination.Value2, "hello world");
+        }
+       
+    }
+
+    public class MethodValueTypeTests: IClassFixture<MapEngineFixture>
+    {
+        private Destination _destination;
+        private IMapEngine _mapper;
+        public class Source
+        {           
+            public string Value3()
+            {
+                return "hello method";
+            }
+        }
+
+        public struct Destination
+        {
+            public string Value3;
+        }
+
+        public MethodValueTypeTests(MapEngineFixture fixture)
+        {
+            _mapper = fixture.Engine;
+        }     
+       
+        [Fact]
+        public void Map_Method_Value()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString());
+            _mapper.Build();
+            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source {});
+
+            Assert.Equal(_destination.Value3, "hello method");
         }
     }
 }
