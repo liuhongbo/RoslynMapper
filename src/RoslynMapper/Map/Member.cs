@@ -97,6 +97,19 @@ namespace RoslynMapper.Map
                         rootType = memberExpression.Member.ReflectedType;
                         expressionToCheck = memberExpression.Expression;
                         break;
+                    case ExpressionType.Call:
+                        var methodCallExpression = (MethodCallExpression)expressionToCheck;
+                        if (memberInfo == null)
+                        {
+                            memberInfo = methodCallExpression.Method;
+                        }
+                        else
+                        {
+                            path = methodCallExpression.Method.Name + (string.IsNullOrEmpty(path) ? "" : ".") + path;
+                        }
+                        rootType = methodCallExpression.Method.ReflectedType;
+                        expressionToCheck = methodCallExpression.Object;
+                        break;
                     default:
                         done = true;
                         break;

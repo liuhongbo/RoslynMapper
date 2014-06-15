@@ -137,9 +137,9 @@ namespace RoslynMapper.Map
         }
 
 
-        protected void BuildMembers(Type type, MemberPath path, bool includeMethods = false)
+        protected void BuildMembers(Type type, MemberPath path, bool includeMethod , bool includeCanReadProperty, bool includeCanWriteProperty)
         {
-            var memberInfos = GetMemberInfos(type, includeMethods);
+            var memberInfos = GetMemberInfos(type, includeMethod, includeCanReadProperty, includeCanWriteProperty);
 
             foreach (var memberInfo in memberInfos)
             {
@@ -157,7 +157,7 @@ namespace RoslynMapper.Map
                     if ( !(memberInfo is MethodInfo) && (!TypeConvert.IsBuildInType(memberType)) && (!memberType.IsEnum))
                     {
                         var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".") + memberInfo.Name);
-                        BuildMembers(memberType, memberPath);
+                        BuildMembers(memberType, memberPath, includeMethod, includeCanReadProperty, includeCanWriteProperty);
                     }
                 }
             }
@@ -176,8 +176,8 @@ namespace RoslynMapper.Map
                 return code;
             }
 
-            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty), true);
-            BuildMembers(destinationType, new MemberPath(destinationType, string.Empty));
+            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty), true, true, false);
+            BuildMembers(destinationType, new MemberPath(destinationType, string.Empty), false, false, true);
 
             code += GetMemberMapBody(null, new MemberPath(DestinationType, string.Empty), null, indent);
 
@@ -217,11 +217,11 @@ namespace RoslynMapper.Map
             return Members.GetMembers<T1, T2>(SourceType).Where(m => m.MemberInfo.Name == destMember.MemberInfo.Name).FirstOrDefault();
         }
 
-        private IEnumerable<MemberInfo> GetMemberInfos(Type type, bool includeMethods = false)
+        private IEnumerable<MemberInfo> GetMemberInfos(Type type, bool includeMethod, bool includeCanReadProperty, bool includeCanWriteProperty)
         {
-            var memberInfos =  ((MemberInfo[])type.GetProperties()).Concat((MemberInfo[])type.GetFields());
+            var memberInfos = ((IEnumerable<MemberInfo>)type.GetProperties().Where(p => (p.CanRead && includeCanReadProperty) || (p.CanWrite && includeCanWriteProperty))).Concat((MemberInfo[])type.GetFields());
 
-            if (includeMethods)
+            if (includeMethod)
             {
                 memberInfos = memberInfos.Concat((IEnumerable<MemberInfo>)type.GetMethods().Where(m => (m.GetParameters().Length == 0) && (m.ReturnType != typeof(void)) && (!m.IsSpecialName)));
             }
