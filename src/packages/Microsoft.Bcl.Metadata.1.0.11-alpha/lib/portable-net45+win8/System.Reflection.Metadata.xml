@@ -113,6 +113,11 @@
               Looks up a localized string similar to Can&apos;t get a heap offset for a virtual heap handle.
             </summary>
         </member>
+        <member name="P:System.Reflection.Metadata.MetadataResources.EnCMapNotSorted">
+            <summary>
+              Looks up a localized string similar to EnCMap table not sorted or has missing records..
+            </summary>
+        </member>
         <member name="P:System.Reflection.Metadata.MetadataResources.IllegalTablesInCompressedMetadataStream">
             <summary>
               Looks up a localized string similar to Illegal tables in compressed metadata stream..
@@ -141,6 +146,11 @@
         <member name="P:System.Reflection.Metadata.MetadataResources.ImageTooSmallToContainSections">
             <summary>
               Looks up a localized string similar to Image too small to contain number of sections claimed by COFF header..
+            </summary>
+        </member>
+        <member name="P:System.Reflection.Metadata.MetadataResources.InvalidCodedIndex">
+            <summary>
+              Looks up a localized string similar to Invalid coded index..
             </summary>
         </member>
         <member name="P:System.Reflection.Metadata.MetadataResources.InvalidCorHeaderSize">
@@ -311,6 +321,11 @@
         <member name="P:System.Reflection.Metadata.MetadataResources.PEImageNotAvailable">
             <summary>
               Looks up a localized string similar to PE image not available..
+            </summary>
+        </member>
+        <member name="P:System.Reflection.Metadata.MetadataResources.RowIdOrHeapOffsetTooLarge">
+            <summary>
+              Looks up a localized string similar to Row ID or heap offset is too large..
             </summary>
         </member>
         <member name="P:System.Reflection.Metadata.MetadataResources.SectionTooSmall">
@@ -520,10 +535,21 @@
             A token can only be retrieved for a metadata table handle or a heap handle of type <see cref="F:System.Reflection.Metadata.HandleType.UserString"/>.
             </exception>
         </member>
-        <member name="M:System.Reflection.Metadata.Ecma335.MetadataTokens.GetTableIndex(System.Reflection.Metadata.Handle)">
+        <member name="M:System.Reflection.Metadata.Ecma335.MetadataTokens.TryGetTableIndex(System.Reflection.Metadata.HandleType,System.Reflection.Metadata.Ecma335.TableIndex@)">
             <summary>
-            Returns the index of the table the specified handle represents a record of.
+            Gets the <see cref="T:System.Reflection.Metadata.Ecma335.TableIndex"/> of the table corresponding to the specified <see cref="T:System.Reflection.Metadata.HandleType"/>.
             </summary>
+            <param name="type">Handle type.</param>
+            <param name="index">Table index.</param>
+            <returns>True if the handle type corresponds to an Ecma335 table, false otherwise.</returns>
+        </member>
+        <member name="M:System.Reflection.Metadata.Ecma335.MetadataTokens.TryGetHeapIndex(System.Reflection.Metadata.HandleType,System.Reflection.Metadata.Ecma335.HeapIndex@)">
+            <summary>
+            Gets the <see cref="T:System.Reflection.Metadata.Ecma335.HeapIndex"/> of the heap corresponding to the specified <see cref="T:System.Reflection.Metadata.HandleType"/>.
+            </summary>
+            <param name="type">Handle type.</param>
+            <param name="index">Heap index.</param>
+            <returns>True if the handle type corresponds to an Ecma335 heap, false otherwise.</returns>
         </member>
         <member name="M:System.Reflection.Metadata.Ecma335.MetadataTokens.Handle(System.Int32)">
             <summary>

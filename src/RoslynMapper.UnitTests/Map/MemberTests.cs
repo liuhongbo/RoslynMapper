@@ -132,6 +132,10 @@ namespace RoslynMapper.UnitTests.Map
         public class E
         {
             public double value { get; set; }
+            public float methodValue()
+            {
+                return 0.56F;
+            }
         }
 
         [Fact]
@@ -208,6 +212,16 @@ namespace RoslynMapper.UnitTests.Map
         public void Member_value_From_Type_E_in_Type_D_in_Type_C_in_Type_B()
         {
             Expression<Func<B, object>> exp = p => p.c.d.e.value;
+
+            var m = Member<A, B>.FromLambdaExpression(exp);
+
+            Assert.Equal(m.Path, new MemberPath(typeof(B), "c.d.e"));
+        }
+
+        [Fact]
+        public void Method_Member_value_From_Type_E_in_Type_D_in_Type_C_in_Type_B()
+        {
+            Expression<Func<B, object>> exp = p => p.c.d.e.methodValue();
 
             var m = Member<A, B>.FromLambdaExpression(exp);
 

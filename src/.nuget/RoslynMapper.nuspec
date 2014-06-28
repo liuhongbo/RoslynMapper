@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>RoslynMapper</id>
-        <version>0.1.7-alpha</version>
+        <version>0.1.8-alpha</version>
         <title>RoslynMapper</title>
         <authors>liuhongbo@live.com</authors>
         <owners>liuhongbo@live.com</owners>
@@ -12,8 +12,8 @@
         <description>An object to object mapper</description>
         <copyright>Copyright ©  2014 liuhongbo@live.com</copyright>
         <dependencies>
-            <dependency id="Microsoft.CodeAnalysis.Common" version="0.6.0.0" />
-			<dependency id="Microsoft.CodeAnalysis.CSharp" version="0.6.0.0" />
+            <dependency id="Microsoft.CodeAnalysis.Common" version="0.7.0.0" />
+			<dependency id="Microsoft.CodeAnalysis.CSharp" version="0.7.0.0" />
         </dependencies>
 	<tags>Roslyn Mapper</tags>
     </metadata>
