@@ -31,5 +31,10 @@ namespace RoslynMapper.Map
         {
             _member.Resolver = resolver;
         }
+
+        public void CodeResolve(Func<string> resolver)
+        {
+            _member.CodeResolver = resolver;
+        }
     }
 }

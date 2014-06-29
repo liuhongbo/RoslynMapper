@@ -20,5 +20,6 @@ namespace RoslynMapper.Map
     public interface ITypeMap<T1, T2> : ITypeMap
     {
         Action<T1, T2> Resolver { get; set; }
+        Func<IMember, string> CodeResolver { get; set; }
     }
 }

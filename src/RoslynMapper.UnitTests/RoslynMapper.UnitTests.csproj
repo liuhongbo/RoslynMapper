@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DataReaderTests.cs" />
     <Compile Include="MemberBindTests.cs" />
     <Compile Include="ConversionOperatorTests.cs" />
     <Compile Include="EnumTypeTests.cs" />

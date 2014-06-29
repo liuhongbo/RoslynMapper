@@ -59,10 +59,14 @@
   <ItemGroup>
     <Compile Include="Convert\ITypeConvert.cs" />
     <Compile Include="Convert\TypeConvert.cs" />
+    <Compile Include="Data\DataRecordExtensions.cs" />
+    <Compile Include="Data\DataRowExtensions.cs" />
+    <Compile Include="Data\DbConnectionExtensions.cs" />
     <Compile Include="IBuilder.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="IMemberMapping.cs" />
     <Compile Include="Mapper\MapperBase.cs" />
+    <Compile Include="Map\Extensions.cs" />
     <Compile Include="Map\IMember.cs" />
     <Compile Include="Map\IMembers.cs" />
     <Compile Include="Map\Mapping.cs" />

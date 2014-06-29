@@ -16,5 +16,6 @@ namespace RoslynMapper
     {        
         void Bind(Expression<Func<T1, object>> t1);
         void Resolve(Action<T1, T2> resolver);
+        void CodeResolve(Func<string> resolver);
     }
 }

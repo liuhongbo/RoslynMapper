@@ -59,6 +59,12 @@ namespace RoslynMapper.Map
         {
             _typeMap.Resolver = resolver;
             return this;
+        }        
+
+        public IMapping<T1, T2> CodeResolve(Func<IMember, string> resolver)
+        {
+            _typeMap.CodeResolver = resolver;
+            return this;
         }
 
         /// <summary>

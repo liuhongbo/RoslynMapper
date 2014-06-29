@@ -13,11 +13,12 @@ namespace RoslynMapper.Map
         private MemberKey _key = null;
         private MemberInfo _memberInfo = null;
         private string _id = null;
+        private MemberPath _memberPath = null;
 
         public Member(MemberInfo memberInfo, MemberPath path)           
         {
             _memberInfo = memberInfo;
-            Path = path;
+            _memberPath = path;
         }        
 
         public MemberInfo MemberInfo
@@ -49,7 +50,13 @@ namespace RoslynMapper.Map
 
         public bool Ignored { get; set; }
         public IMember<T1,T2> BindMember { get; set; }
-        public MemberPath Path { get; set; }
+        public MemberPath Path
+        {
+            get
+            {
+                return _memberPath;
+            }
+        }
 
 
         /// <summary>
@@ -64,6 +71,8 @@ namespace RoslynMapper.Map
         }
 
         public Action<T1, T2> Resolver { get; set; }
+
+        public Func<string> CodeResolver { get; set; }
 
         //https://github.com/AutoMapper/AutoMapper/blob/develop/src/AutoMapper/Internal/ReflectionHelper.cs
         public static new Member<T1,T2> FromLambdaExpression(LambdaExpression expression)
