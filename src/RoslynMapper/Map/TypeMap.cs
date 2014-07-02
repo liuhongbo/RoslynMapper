@@ -139,8 +139,10 @@ namespace RoslynMapper.Map
         }
 
 
-        protected void BuildMembers(Type type, MemberPath path, bool includeMethod , bool includeCanReadProperty, bool includeCanWriteProperty)
+        protected void BuildMembers(Type type, MemberPath path, bool includeMethod , bool includeCanReadProperty, bool includeCanWriteProperty, int depth)
         {
+            if (depth > 10) return;
+
             var memberInfos = GetMemberInfos(type, includeMethod, includeCanReadProperty, includeCanWriteProperty);
 
             foreach (var memberInfo in memberInfos)
@@ -156,10 +158,14 @@ namespace RoslynMapper.Map
 
                 if (!member.Ignored)
                 {
-                    if ( !(memberInfo is MethodInfo) && (!TypeConvert.IsBuildInType(memberType)) && (!memberType.IsEnum))
-                    {
+                    if ( !(memberInfo is MethodInfo)
+                        && (!TypeConvert.IsPrimitiveType(memberType)) 
+                        && (!memberType.IsEnum)
+                        && (!(memberType == typeof(Guid)))
+                        && (!(memberType == typeof(object))))
+                    { 
                         var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".") + memberInfo.Name);
-                        BuildMembers(memberType, memberPath, includeMethod, includeCanReadProperty, includeCanWriteProperty);
+                        BuildMembers(memberType, memberPath, includeMethod, includeCanReadProperty, includeCanWriteProperty, depth + 1);
                     }
                 }
             }
@@ -178,8 +184,8 @@ namespace RoslynMapper.Map
                 return code;
             }
 
-            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty), true, true, false);
-            BuildMembers(destinationType, new MemberPath(destinationType, string.Empty), false, false, true);            
+            BuildMembers(sourceType, new MemberPath(sourceType, string.Empty), true, true, false, 0);
+            BuildMembers(destinationType, new MemberPath(destinationType, string.Empty), false, false, true, 0);            
 
             code += GetMemberMapBody(null, new MemberPath(DestinationType, string.Empty), null, indent);
 

@@ -409,6 +409,13 @@ namespace RoslynMapper.Convert
                     (type == typeof(bool)));
         }
 
+        public static bool IsPrimitiveType(Type type)
+        {
+            return (IsSimpleType(type) ||
+                    (type == typeof(DateTime)) ||
+                    (type == typeof(string)));
+        }
+
         public static bool IsBuildInType(Type type)
         {
             return (IsSimpleType(type) ||

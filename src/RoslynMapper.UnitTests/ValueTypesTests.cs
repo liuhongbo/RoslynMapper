@@ -105,4 +105,36 @@ namespace RoslynMapper.UnitTests
             Assert.Equal(_destination.Value3, "hello method");
         }
     }
+
+    public class DateTimeTests : IClassFixture<MapEngineFixture>
+    {
+        private Destination _destination;
+        private IMapEngine _mapper;
+        public class Source
+        {
+            public DateTime Value;
+        }
+
+        public struct Destination
+        {
+            public DateTime Value;
+        }
+
+        public DateTimeTests(MapEngineFixture fixture)
+        {
+            _mapper = fixture.Engine;
+        }
+
+        [Fact]
+        public void Map_Method_Value()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString());
+            _mapper.Build();
+            var now = DateTime.Now;
+            _destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value = now });
+
+            Assert.Equal(_destination.Value, now);
+        }
+    }
 }
