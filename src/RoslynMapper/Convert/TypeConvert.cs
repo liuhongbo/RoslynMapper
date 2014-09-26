@@ -413,6 +413,7 @@ namespace RoslynMapper.Convert
         {
             return (IsSimpleType(type) ||
                     (type == typeof(DateTime)) ||
+                    (type == typeof(DateTimeOffset)) || 
                     (type == typeof(string)));
         }
 
