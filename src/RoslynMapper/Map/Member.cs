@@ -75,7 +75,7 @@ namespace RoslynMapper.Map
         public Func<string> CodeResolver { get; set; }
 
         //https://github.com/AutoMapper/AutoMapper/blob/develop/src/AutoMapper/Internal/ReflectionHelper.cs
-        public static new Member<T1,T2> FromLambdaExpression(LambdaExpression expression)
+        public static Member<T1,T2> FromLambdaExpression(LambdaExpression expression)
         {
             Expression expressionToCheck = expression;
 
