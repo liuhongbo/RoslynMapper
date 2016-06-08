@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RoslynMapper.Map;
-using RoslynMapper.Build;
+using RoslynMapper.Builder;
 
 namespace RoslynMapper
 {
