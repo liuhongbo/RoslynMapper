@@ -52,5 +52,15 @@ namespace RoslynMapper.Map
                 }
             }
         }
+
+        public static bool IsConcreteType(this Type type)
+        {
+            return !type.IsAbstract && !type.IsInterface;
+        }
+
+        public static bool IsGenericTypeOf(this Type type, Type genericType)
+        {
+            return ((type.IsGenericType) && type.GetGenericTypeDefinition() == genericType);
+        }
     }
 }

@@ -147,6 +147,12 @@ namespace RoslynMapper.Map
 
             foreach (var memberInfo in memberInfos)
             {
+                if (memberInfo.DeclaringType.IsGenericTypeOf(typeof(IList<>))) continue;
+                if (memberInfo.DeclaringType.IsGenericTypeOf(typeof(IEnumerable<>))) continue;
+                if (memberInfo.DeclaringType.IsGenericTypeOf(typeof(ICollection<>))) continue;
+                if (memberInfo.DeclaringType.IsGenericTypeOf(typeof(ISet<>))) continue;
+                if (memberInfo.DeclaringType.IsGenericTypeOf(typeof(IDictionary<,>))) continue;
+
                 IMember<T1, T2> member = Members.GetMember<T1, T2>(new MemberKey(memberInfo, path));
                 if (member == null)
                 {
@@ -274,8 +280,32 @@ namespace RoslynMapper.Map
                     var c = GetMemberMapBody(sourceMember, destMember, indent);
                     if (string.IsNullOrEmpty(c))
                     {
-                        code += string.Format("{0}if (t2.{1} == null) t2.{1} = new {2}();\r\n", indent, destMember.GetMemberFullPathName(), NormalizedTypeFullName(destMember.MemberInfo.GetMemberType()));
-                        var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".")+ destMember.MemberInfo.Name) ;
+                        var destMemberType = destMember.MemberInfo.GetMemberType();
+                        string destMemberTypeString = null;
+                        if (destMemberType.IsConcreteType())
+                        {                            
+                            destMemberTypeString = NormalizedTypeFullName(destMemberType);
+                        }
+                        else if (destMemberType.IsInterface)
+                        {
+                            if (destMemberType.IsGenericTypeOf(typeof(IList<>)))
+                            {
+                                //destMemberTypeString = NormalizedTypeFullName(typeof(List<>).MakeGenericType(destMemberType.GenericTypeArguments));
+                                destMemberTypeString = TypeSyntaxFactory.GetTypeSyntax("List", destMemberType.GenericTypeArguments[0].FullName).ToFullString();
+                                
+                            }
+                            else if (destMemberType.IsGenericTypeOf(typeof(ICollection<>)))
+                            {
+                                //destMemberTypeString = NormalizedTypeFullName(typeof(List<>).MakeGenericType(destMemberType.GenericTypeArguments));
+                                destMemberTypeString = TypeSyntaxFactory.GetTypeSyntax("List", destMemberType.GenericTypeArguments[0].FullName).ToFullString();
+                            }
+                            //more ???
+                        }
+                        if (!string.IsNullOrEmpty(destMemberTypeString))
+                        {
+                            code += string.Format("{0}if (t2.{1} == null) t2.{1} = new {2}();\r\n", indent, destMember.GetMemberFullPathName(), destMemberTypeString);                            
+                        }
+                        var memberPath = new MemberPath(path.RootType, path.AccessPath + (string.IsNullOrEmpty(path.AccessPath) ? "" : ".") + destMember.MemberInfo.Name);
                         foreach (var m in Members.GetMembers<T1, T2>(DestinationType, memberPath))
                         {
                             code += GetMemberMapBody(m, memberPath, binder, indent);
@@ -356,7 +386,6 @@ namespace RoslynMapper.Map
         private string NormalizedTypeFullName(Type type)
         {
             return type.FullName.Replace('+', '.');
-        }
-    
+        }        
     }
 }

@@ -90,6 +90,7 @@
     <Compile Include="Map\TypeMap.cs" />
     <Compile Include="Map\TypeMapFactory.cs" />
     <Compile Include="Map\TypeMaps.cs" />
+    <Compile Include="Map\TypeSyntaxFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
