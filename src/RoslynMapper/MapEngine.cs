@@ -74,6 +74,11 @@ namespace RoslynMapper
             return new Mapping<T1, T2>(typeMap);
         }
 
+        public IMapping<T1, T2> SetMapper<T1, T2>(int maxDepth)
+        {
+            return SetMapper<T1, T2>(null, maxDepth);
+        }
+
         public IMapping<T1, T2> SetMapper<T1, T2>(string name, int maxDepth)
         {
             ITypeMap<T1, T2> typeMap = null;

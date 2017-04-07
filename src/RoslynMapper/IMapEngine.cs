@@ -14,6 +14,7 @@ namespace RoslynMapper
 
         IMapping<T1, T2> SetMapper<T1, T2>();
         IMapping<T1, T2> SetMapper<T1, T2>(string name);
+        IMapping<T1, T2> SetMapper<T1, T2>(int maxDepth);
         IMapping<T1, T2> SetMapper<T1, T2>(string name, int maxDepth);
 
         bool Build();
