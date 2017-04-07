@@ -29,7 +29,7 @@ namespace RoslynMapper.UnitTests.Map
         public class C
         {
             public string Name { get; set; }
-        }
+        }      
 
         [Fact]
         public void Member_WithSameType_and_SameName_Declared_in_Different_Type_MemberInfo_Not_Equal()
@@ -58,7 +58,7 @@ namespace RoslynMapper.UnitTests.Map
             Expression<Func<A, object>> exp1 = p => p.c.Name;
             Expression<Func<B, object>> exp2 = p => p.d.Name;
 
-            var member1 = Member<A,B>.FromLambdaExpression(exp1);
+            var member1 = Member<A, B>.FromLambdaExpression(exp1);
             var member2 = Member<A, B>.FromLambdaExpression(exp2);
 
             Assert.Equal(member1.MemberInfo, member2.MemberInfo);
@@ -103,7 +103,7 @@ namespace RoslynMapper.UnitTests.Map
 
     public class MemberPathTests
     {
-        public class A
+        public class A : F
         {
             public int value { get; set; }
             public C c;
@@ -138,6 +138,11 @@ namespace RoslynMapper.UnitTests.Map
             }
         }
 
+        public class F
+        {
+            public int value2 { get; set; }
+        }
+
         [Fact]
         public void Member_Value_From_Type_A()
         {
@@ -146,6 +151,16 @@ namespace RoslynMapper.UnitTests.Map
             var m = Member<A, B>.FromLambdaExpression(exp);
 
             Assert.Equal(m.Path,new MemberPath(typeof(A), string.Empty));
+        }
+
+        [Fact]
+        public void Member_Derived_Value_From_Type_A()
+        {
+            Expression<Func<A, object>> exp = p => p.value2;
+
+            var m = Member<A, B>.FromLambdaExpression(exp);
+
+            Assert.Equal(m.Path, new MemberPath(typeof(A), string.Empty));
         }
 
         [Fact]

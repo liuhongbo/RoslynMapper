@@ -102,7 +102,7 @@ namespace RoslynMapper.Map
                         else
                         {
                             path = memberExpression.Member.Name + (string.IsNullOrEmpty(path) ? "" : ".") + path;
-                        }
+                        }                        
                         rootType = memberExpression.Member.ReflectedType;
                         expressionToCheck = memberExpression.Expression;
                         break;
@@ -118,6 +118,13 @@ namespace RoslynMapper.Map
                         }
                         rootType = methodCallExpression.Method.ReflectedType;
                         expressionToCheck = methodCallExpression.Object;
+                        break;
+                    case ExpressionType.Parameter:
+                        //try to get the real ReflectedType since the ReflectedType could be not correct if the member is delcared in a base class
+                        //http://stackoverflow.com/questions/23105567/reflectedtype-from-memberexpression
+                        var parameterExpression = ((ParameterExpression)expressionToCheck);
+                        rootType = parameterExpression.Type;
+                        done = true;
                         break;
                     default:
                         done = true;

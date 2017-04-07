@@ -97,5 +97,60 @@ namespace RoslynMapper.UnitTests
             Assert.Equal(destination.i1.i1.i, 10);
 
         }
+
+        [Fact]
+        public void Map_Two_Layer_Nested_Member_With_Depth_0()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString(), 0);
+            _mapper.Build();
+
+            var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source() { });
+            Assert.Equal(destination.i1.i1, null);
+        }
+
+        [Fact]
+        public void Map_Two_Layer_Nested_Member_With_Depth_1()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString(), 1);
+            _mapper.Build();
+
+            var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source() { });
+            Assert.NotEqual(destination.i1.i1.i, 10);
+        }
+
+        [Fact]
+        public void Map_Two_Layer_Nested_Member_With_Depth_2()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString(), 2);
+            _mapper.Build();
+
+            var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source() { });
+            Assert.Equal(destination.i1.i1.i, 10);
+        }
+
+        [Fact]
+        public void Map_Two_Layer_Nested_Member_With_Depth_3()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString(), 3);
+            _mapper.Build();
+
+            var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source() { });
+            Assert.Equal(destination.i1.i1.i, 10);
+        }
+
+        [Fact]
+        public void Map_Two_Layer_Nested_Member_With_Depth_4()
+        {
+            Guid guid = Guid.NewGuid();
+            _mapper.SetMapper<Source, Destination>(guid.ToString(), 4);
+            _mapper.Build();
+
+            var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source() { });
+            Assert.Equal(destination.i1.i1.i, 10);
+        }
     }
 }

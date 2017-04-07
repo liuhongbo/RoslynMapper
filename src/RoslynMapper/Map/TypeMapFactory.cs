@@ -10,11 +10,15 @@ namespace RoslynMapper.Map
     {
         public ITypeMap<T1,T2> CreateTypeMap<T1,T2>()
         {
-            return CreateTypeMap<T1,T2>(null);
+            return new TypeMap<T1, T2>();
         }
         public ITypeMap<T1,T2> CreateTypeMap<T1,T2>(string name)
         {
             return new TypeMap<T1, T2>(name);
+        }
+        public ITypeMap<T1, T2> CreateTypeMap<T1, T2>(string name, int maxDepth)
+        {
+            return new TypeMap<T1, T2>(name, maxDepth);
         }
     }
 }

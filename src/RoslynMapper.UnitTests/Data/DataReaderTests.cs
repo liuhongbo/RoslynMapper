@@ -23,7 +23,7 @@ namespace RoslynMapper.UnitTests.Data
             public int Value1 { get; set; }
         }        
 
-        [Fact]
+        [Fact(Skip = "test not implemented yet")]
         public void Test()
         {
             Guid guid = Guid.NewGuid();

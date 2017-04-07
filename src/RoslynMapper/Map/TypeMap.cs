@@ -13,16 +13,26 @@ namespace RoslynMapper.Map
         private ITypeConvert _typeConvert = new TypeConvert();
         static private MapKey _mapKey = null;
         private Members _members = null;
+        private int _maxDepth = DEFAULT_MAX_DEPTH;
+        private const int DEFAULT_MAX_DEPTH = 10;
+
         public TypeMap(): this(null)
         {
 
         }
 
-        public TypeMap(string name)
-        {            
+        public TypeMap(string name) : this(name, DEFAULT_MAX_DEPTH)
+        {
+            
+        }
+
+        public TypeMap(string name, int maxDepth)
+        {
             Name = name;
             _members = new Members();
+            _maxDepth = maxDepth;
         }
+
         public string Name { get; set; }
 
         public MapKey Key
@@ -141,7 +151,7 @@ namespace RoslynMapper.Map
 
         protected void BuildMembers(Type type, MemberPath path, bool includeMethod , bool includeCanReadProperty, bool includeCanWriteProperty, int depth)
         {
-            if (depth > 10) return;
+            if (depth > _maxDepth) return;
 
             var memberInfos = GetMemberInfos(type, includeMethod, includeCanReadProperty, includeCanWriteProperty);
 

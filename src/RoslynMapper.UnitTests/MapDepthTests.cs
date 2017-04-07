@@ -30,10 +30,10 @@ namespace RoslynMapper.UnitTests
         public void Map_Guid_Value()
         {
             Guid guid = Guid.NewGuid();
-            _mapper.SetMapper<Source, Destination>(guid.ToString());
+            _mapper.SetMapper<Source, Destination>(guid.ToString()).Bind(s=>s.Value1, d=>d.Value2);
             _mapper.Build();
 
-            Guid value = new Guid();
+            Guid value = Guid.NewGuid();
 
             var destination = _mapper.GetMapper<Source, Destination>(guid.ToString()).Map(new Source { Value1 = value });
 

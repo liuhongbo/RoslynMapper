@@ -1,1 +1,1 @@
-NuGet Push RoslynMapper.0.2.2.nupkg
+NuGet Push RoslynMapper.0.3.0.nupkg

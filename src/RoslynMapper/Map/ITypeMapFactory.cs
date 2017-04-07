@@ -10,5 +10,6 @@ namespace RoslynMapper.Map
     {
         ITypeMap<T1,T2> CreateTypeMap<T1,T2>();
         ITypeMap<T1,T2> CreateTypeMap<T1,T2>(string name);
+        ITypeMap<T1, T2> CreateTypeMap<T1, T2>(string name, int maxDepth);
     }
 }

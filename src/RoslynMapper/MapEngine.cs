@@ -74,11 +74,29 @@ namespace RoslynMapper
             return new Mapping<T1, T2>(typeMap);
         }
 
+        public IMapping<T1, T2> SetMapper<T1, T2>(string name, int maxDepth)
+        {
+            ITypeMap<T1, T2> typeMap = null;
+
+            typeMap = _typeMaps.GetTypeMap<T1, T2>(name);
+
+            if (typeMap == null)
+            {
+                typeMap = _typeMapFactory.CreateTypeMap<T1, T2>(name, maxDepth);
+                _typeMaps.AddTypeMap(typeMap);
+            }
+
+            return new Mapping<T1, T2>(typeMap);
+        }
+
         public bool Build()
         {
-            var mappers = _mapperBuidler.Build(_typeMaps.GetTypeMaps().Where(m=>(_mappers.GetMapper(m.Key)==null)), this);
-            _mappers.AddMappers(mappers);
-            return (mappers.Count()>0);
+            lock (this)
+            {
+                var mappers = _mapperBuidler.Build(_typeMaps.GetTypeMaps().Where(m => (_mappers.GetMapper(m.Key) == null)), this);
+                _mappers.AddMappers(mappers);
+                return (mappers.Count() > 0);
+            }            
         }
 
         public T2 Map<T1, T2>(T1 t1)
