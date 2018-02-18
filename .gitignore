@@ -6,6 +6,9 @@
 *.user
 *.sln.docstates
 
+# Visual Studio temp something
+.vs
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
