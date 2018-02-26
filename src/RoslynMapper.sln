@@ -1,35 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper", "RoslynMapper\RoslynMapper.csproj", "{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoslynMapper", "RoslynMapper\RoslynMapper.csproj", "{29651007-030D-47B5-B1F5-BD2EE9A9CA02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Samples", "RoslynMapper.Samples\RoslynMapper.Samples.csproj", "{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Benchmark", "RoslynMapper.Benchmark\RoslynMapper.Benchmark.csproj", "{70FD084B-1D7F-40E4-905B-A785127315FB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CE35E149-BEFE-45EA-AC45-397572D1957F}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Samples", "RoslynMapper.Samples\RoslynMapper.Samples.csproj", "{7B45B9FC-8B97-4A43-BD63-031DD16F1794}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.UnitTests", "RoslynMapper.UnitTests\RoslynMapper.UnitTests.csproj", "{41344446-801D-43BD-BC7B-804464F2268B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.WebSite", "RoslynMapper.WebSite\RoslynMapper.WebSite.csproj", "{32CF8747-D762-4834-A048-8A1D9FD06248}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{E375080E-1400-4390-8B2E-9EC2DB4B1AC5}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
-		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{46E1679A-3C65-4885-BE71-85D66FC045AA}"
-	ProjectSection(SolutionItems) = preProject
-		PublishScripts\Configurations\RoslynMapperWebSite-WAWS-dev.json = PublishScripts\Configurations\RoslynMapperWebSite-WAWS-dev.json
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.Benchmark", "RoslynMapper.Benchmark\RoslynMapper.Benchmark.csproj", "{9C68DA86-9430-4536-AB11-E1880BDFEF13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynMapper.UnitTests", "RoslynMapper.UnitTests\RoslynMapper.UnitTests.csproj", "{449F656A-D875-4349-AAFF-CC699687B1B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,31 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A8CE759-BE75-4842-ADCF-D4FE0CEB7908}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C96F79FB-B6F8-4F85-B216-D2F4AC04D6FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41344446-801D-43BD-BC7B-804464F2268B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41344446-801D-43BD-BC7B-804464F2268B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41344446-801D-43BD-BC7B-804464F2268B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41344446-801D-43BD-BC7B-804464F2268B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32CF8747-D762-4834-A048-8A1D9FD06248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32CF8747-D762-4834-A048-8A1D9FD06248}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32CF8747-D762-4834-A048-8A1D9FD06248}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32CF8747-D762-4834-A048-8A1D9FD06248}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C68DA86-9430-4536-AB11-E1880BDFEF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C68DA86-9430-4536-AB11-E1880BDFEF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C68DA86-9430-4536-AB11-E1880BDFEF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C68DA86-9430-4536-AB11-E1880BDFEF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29651007-030D-47B5-B1F5-BD2EE9A9CA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29651007-030D-47B5-B1F5-BD2EE9A9CA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29651007-030D-47B5-B1F5-BD2EE9A9CA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29651007-030D-47B5-B1F5-BD2EE9A9CA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FD084B-1D7F-40E4-905B-A785127315FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FD084B-1D7F-40E4-905B-A785127315FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FD084B-1D7F-40E4-905B-A785127315FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FD084B-1D7F-40E4-905B-A785127315FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B45B9FC-8B97-4A43-BD63-031DD16F1794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B45B9FC-8B97-4A43-BD63-031DD16F1794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B45B9FC-8B97-4A43-BD63-031DD16F1794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B45B9FC-8B97-4A43-BD63-031DD16F1794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449F656A-D875-4349-AAFF-CC699687B1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449F656A-D875-4349-AAFF-CC699687B1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449F656A-D875-4349-AAFF-CC699687B1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449F656A-D875-4349-AAFF-CC699687B1B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{46E1679A-3C65-4885-BE71-85D66FC045AA} = {E375080E-1400-4390-8B2E-9EC2DB4B1AC5}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07549E8E-E4BC-4859-8F32-D266478045D1}
 	EndGlobalSection
 EndGlobal
