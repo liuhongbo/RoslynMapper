@@ -185,17 +185,22 @@ using RoslynMapper.Map;";
                 }
             }
 
-            MetadataReference[] refs = new MetadataReference[paths.Count];
-
-            int i = 0;
+            var references = new List<MetadataReference>();            
            
             foreach (var path in paths)
             {
-                refs[i] = MetadataReference.CreateFromFile(path.Value);
-                i++;
+                references.Add(MetadataReference.CreateFromFile(path.Value));                
             }
 
-            return refs;
+            Assembly.GetEntryAssembly().GetReferencedAssemblies()
+            .ToList()
+            .ForEach(a => references.Add(MetadataReference.CreateFromFile(Assembly.Load(a).Location)));
+
+            Assembly.GetExecutingAssembly().GetReferencedAssemblies()
+            .ToList()
+            .ForEach(a => references.Add(MetadataReference.CreateFromFile(Assembly.Load(a).Location)));
+
+            return references;
         }
 
         protected Assembly BuildAssembly(string code, IEnumerable<ITypeMap> typeMaps)
@@ -203,6 +208,7 @@ using RoslynMapper.Map;";
             return BuildAssembly(code, typeMaps, null);
         }
 
+        //https://github.com/dotnet/roslyn/issues/49498
         protected Assembly BuildAssembly(string code, IEnumerable<ITypeMap> typeMaps, string assemblyName)
         {
             var tree = SyntaxFactory.ParseSyntaxTree(code);            
